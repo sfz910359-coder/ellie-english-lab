@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Index — Ellie's English Lab</title>
+<link rel="stylesheet" href="style/lesson.css">
+<style>
+  .search-box {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-ui);
+    font-size: 1.1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    margin: 1.2rem 0;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { outline: none; border-color: var(--blue); }
+  .lesson-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.2rem 1.4rem;
+    margin: 0.8rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .lesson-card:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
+  .lesson-card.hidden { display: none; }
+  .lesson-num {
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: white;
+    background: var(--accent);
+    border-radius: 50%;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .lesson-card.done .lesson-num { background: var(--green); }
+  .lesson-info { flex: 1; }
+  .lesson-info h3 { margin: 0 0 0.3rem; font-size: 1.1rem; }
+  .lesson-info h3 a { border-bottom: none; color: var(--text); }
+  .lesson-info h3 a:hover { color: var(--accent); }
+  .lesson-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.4rem 0; }
+  .tag {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    background: var(--blue-soft);
+    color: var(--blue);
+  }
+  .tag.grammar { background: #fdf0ee; color: var(--accent); }
+  .tag.vocab { background: #edf7f0; color: var(--green); }
+  .no-results {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #999;
+  }
+  .stats { display: flex; gap: 1.5rem; margin: 1.5rem 0; }
+  .stat { font-family: var(--font-ui); text-align: center; }
+  .stat .num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 0.8rem; color: #999; }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-fill" style="width:0%"></div></div>
+<h1>📚 Ellie's English Lab</h1>
+<p class="meta">Academic English for German Speakers · A1 → B1 in 4 months</p>
+
+<div class="ellie-says">
+  Welcome! This is your personal English course, built for <em>you</em> — a German university student who needs academic English fast. Every lesson is designed around your strengths (cognates! reading!) and your goals (EMI university lectures). Use the search box below to find anything — grammar rules, vocabulary, learning records. Let's go. 🥂
+</div>
+
+<input type="text" class="search-box" id="search" placeholder="🔍 Search lessons, grammar, vocabulary… (e.g. 'third person', 'cognate', 'spelling')">
+
+<div class="stats">
+  <div class="stat"><div class="num" id="totalCount">1</div><div class="label">Lessons</div></div>
+  <div class="stat"><div class="num" id="doneCount">0</div><div class="label">Completed</div></div>
+  <div class="stat"><div class="num">3</div><div class="label">Reference Docs</div></div>
+</div>
+
+<h2>🗂 Lessons</h2>
+
+<div class="lesson-card" data-keywords="third person -s grammar he she it verb present simple spelling goes studies">
+  <div class="lesson-num">1</div>
+  <div class="lesson-info">
+    <h3><a href="lessons/0001-third-person-s.html">0001 — The Third Person -s</a></h3>
+    <p style="font-size:0.9rem;color:#666;margin:0.2rem 0;">When and how to add -s to English verbs. The one exception in an otherwise simple verb system.</p>
+    <div class="lesson-tags">
+      <span class="tag grammar">grammar</span>
+      <span class="tag">A1→A2</span>
+      <span class="tag">present simple</span>
+    </div>
+  </div>
+</div>
+
+<div class="lesson-card" data-keywords="structural words glue is the my this for to articles determiners prepositions">
+  <div class="lesson-num">2</div>
+  <div class="lesson-info">
+    <h3><a href="lessons/0002-structural-words.html">0002 — Structural Words</a></h3>
+    <p style="font-size:0.9rem;color:#666;margin:0.2rem 0;">Articles, prepositions, possessives — the frozen words that hold English together. Your German brain can relax now.</p>
+    <div class="lesson-tags">
+      <span class="tag grammar">grammar</span>
+      <span class="tag">A1→A2</span>
+      <span class="tag">articles</span>
+      <span class="tag">prepositions</span>
+    </div>
+  </div>
+</div>
+
+<h2>📖 Reference Documents</h2>
+
+<div class="card" style="margin:0.6rem 0;">
+  <strong><a href="reference/grammar-cheat-sheet.html">Grammar Cheat Sheet</a></strong>
+  <span style="font-size:0.85rem;color:#666;"> — Quick-reference grammar rules with German parallels</span>
+</div>
+<div class="card" style="margin:0.6rem 0;">
+  <strong><a href="reference/vocabulary-0001.html">Vocabulary #1</a></strong>
+  <span style="font-size:0.85rem;color:#666;"> — DE→EN cognates, false friends, structural words</span>
+</div>
+<div class="card" style="margin:0.6rem 0;">
+  <strong><a href="learning-records/0001-diagnostic-assessment.md">Diagnostic Assessment</a></strong>
+  <span style="font-size:0.85rem;color:#666;"> — Your starting level across all 5 skills</span>
+</div>
+
+<div class="no-results" id="noResults" style="display:none;">
+  <p style="font-size:1.5rem;">🔍</p>
+  <p>Nothing found. Try a different search term.</p>
+</div>
+
+<footer>
+  <p><a href="MISSION.md">Mission</a> · <a href="RESOURCES.md">Resources</a> · <a href="NOTES.md">Notes</a></p>
+  <p style="margin-top:0.5rem;color:#bbb;">Ellie's English Lab · 2026-06-19</p>
+</footer>
+
+<script>
+  const search = document.getElementById('search');
+  const cards = document.querySelectorAll('.lesson-card');
+  const noResults = document.getElementById('noResults');
+  const refCards = document.querySelectorAll('h2 + .card, h2 + div + .card');
+
+  search.addEventListener('input', () => {
+    const q = search.value.toLowerCase().trim();
+    let visible = 0;
+    cards.forEach(card => {
+      const kw = (card.dataset.keywords || '') + ' ' + (card.textContent || '');
+      if (!q || kw.toLowerCase().includes(q)) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    noResults.style.display = (visible === 0 && q) ? 'block' : 'none';
+    // Also filter reference cards
+    document.querySelectorAll('.card').forEach(c => {
+      if (c.closest('.lesson-card')) return;
+      if (!q || c.textContent.toLowerCase().includes(q)) {
+        c.style.display = '';
+      } else {
+        c.style.display = 'none';
+      }
+    });
+  });
+
+  // Track completed lessons via localStorage
+  function updateStats() {
+    const done = JSON.parse(localStorage.getItem('ellie_done') || '[]');
+    document.getElementById('doneCount').textContent = done.length;
+    done.forEach(n => {
+      const card = document.querySelector(`.lesson-card:nth-of-type(${n})`);
+      if (card) {
+        card.classList.add('done');
+        card.querySelector('.lesson-num').textContent = '✓';
+      }
+    });
+  }
+  updateStats();
+</script>
+
+</body>
+</html>
