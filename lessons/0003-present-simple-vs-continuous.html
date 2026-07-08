@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0003 — Present Simple vs Continuous | Ellie's English Lab</title>
+<link rel="stylesheet" href="../style/lesson.css">
+<style>
+  .read-aloud-btn {
+    display: inline-block;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    margin: 0.3rem 0 0.5rem;
+    transition: background 0.2s;
+  }
+  .read-aloud-btn:hover { background: var(--accent); }
+  .read-aloud-btn.playing { background: var(--accent); }
+  .dialogue-box {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.4rem;
+    margin: 1.5rem 0;
+  }
+  .dialogue-box h3 { margin-top: 0; color: var(--blue); }
+  .dialogue-line {
+    margin: 0.7rem 0;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+  }
+  .dialogue-line.a { background: var(--blue-soft); }
+  .dialogue-line.b { background: var(--accent-soft); }
+  .dialogue-line .speaker { font-weight: bold; font-size: 0.8rem; color: var(--dim); }
+  .dialogue-line .en { font-size: 1.05rem; }
+  .dialogue-line .de { font-size: 0.9rem; color: #666; margin-top: 0.15rem; }
+  .dialogue-line .zh { font-size: 0.8rem; color: #999; }
+  .tense-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.3rem;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .tense-tag.simple { background: #e8f4e8; color: #2d7d46; }
+  .tense-tag.continuous { background: #e8e4f4; color: #5b4d9e; }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-fill" style="width:0%"></div></div>
+
+<div class="breadcrumb">
+  <a href="../index.html">🏠 Course Index</a> › Lesson 0003
+</div>
+
+<h1>0003 — Present Simple vs Present Continuous</h1>
+<p class="meta">
+  <span>📚 Grammar</span><span>⏱ ~15 min</span><span>🎯 A2 → B1</span><span>🇩🇪→🇬🇧 German speaker</span>
+</p>
+
+<!-- ── INTRO with read-aloud ── -->
+<div id="p-intro">
+<p>German has <strong>one present tense</strong>: <em>ich arbeite</em>. English has <strong>two</strong>: <em>I work</em> and <em>I am working</em>. They are not interchangeable — they mean different things. And German speakers mix them up constantly.</p>
+
+<p>This is not your fault. Your brain has one slot for "present" because German trained it that way. English asks you to build a second slot. Today we build it.</p>
+
+<div class="explain">
+  <div class="de">Deutsch hat <strong>eine</strong> Gegenwartsform: <em>ich arbeite</em>. Englisch hat <strong>zwei</strong>: <em>I work</em> und <em>I am working</em>. Sie sind nicht austauschbar. Deutschsprachige verwechseln sie ständig — weil das deutsche Gehirn nur einen Slot für "Gegenwart" hat. Heute bauen wir den zweiten.</div>
+  <div class="zh">德语只有<strong>一个</strong>现在时：ich arbeite。英语有<strong>两个</strong>：I work 和 I am working。它们不能互换。德语母语者经常搞混——因为德语大脑里只有一个"现在"的位置。今天我们建第二个。</div>
+</div>
+</div>
+<button class="read-aloud-btn" onclick="playAudio('l3-intro')">🔊 Read this aloud</button>
+
+<!-- ── THE TWO TENSES ── -->
+<h2>The Two Present Tenses</h2>
+
+<div class="card">
+<table>
+  <tr><th>Tense</th><th>Form</th><th>Use</th><th>German example</th></tr>
+  <tr><td><strong>Present Simple</strong></td><td>I <strong>work</strong><br>He <strong>works</strong></td><td>Habits, facts, routines, general truths</td><td>Ich arbeite <em>jeden Tag</em>.</td></tr>
+  <tr><td><strong>Present Continuous</strong></td><td>I <strong>am working</strong><br>He <strong>is working</strong></td><td>Actions happening <em>right now</em>, temporary situations</td><td>Ich arbeite <em>gerade</em>.</td></tr>
+</table>
+</div>
+
+<div class="rule">
+  <div class="en"><strong>Rule:</strong> Present Simple = what you <em>usually</em> do. Present Continuous = what you are doing <em>right now</em>.</div>
+  <div class="de"><strong>Present Simple</strong> = was du <em>normalerweise</em> tust. <strong>Present Continuous</strong> = was du <em>gerade jetzt</em> tust.</div>
+  <div class="zh"><strong>一般现在时</strong> = 你<em>通常</em>做的事。<strong>现在进行时</strong> = 你<em>此时此刻</em>正在做的事。</div>
+</div>
+
+<!-- ── KEY CONTRAST with audio ── -->
+<h2>The Key Contrast</h2>
+
+<p>These pairs mean completely different things:</p>
+
+<table>
+  <tr><th>Present Simple (usually)</th><th>Present Continuous (right now)</th></tr>
+  <tr><td>I <strong>work</strong> at TUM. <span class="tense-tag simple">job</span></td><td>I <strong>am working</strong> on a problem. <span class="tense-tag continuous">now</span></td></tr>
+  <tr><td>She <strong>speaks</strong> German. <span class="tense-tag simple">ability</span></td><td>She <strong>is speaking</strong> German right now. <span class="tense-tag continuous">now</span></td></tr>
+  <tr><td>They <strong>live</strong> in Munich. <span class="tense-tag simple">fact</span></td><td>They <strong>are living</strong> in Berlin this year. <span class="tense-tag continuous">temporary</span></td></tr>
+  <tr><td>It <strong>rains</strong> a lot here. <span class="tense-tag simple">general</span></td><td>It <strong>is raining</strong> now. <span class="tense-tag continuous">now</span></td></tr>
+</table>
+
+<div class="tip">
+  <strong>🔊 Listen — the difference:</strong> 
+  <audio controls preload="none" style="width:100%;max-width:320px;height:32px;margin-top:0.3rem;">
+    <source src="../audio/l3-contrast.mp3" type="audio/mpeg">
+  </audio>
+  <span style="font-size:0.8rem;color:var(--dim);">I work. I am working. · She speaks German. She is speaking German. · They live in Munich. They are living in Berlin. · It rains. It is raining.</span>
+</div>
+
+<!-- ── GERMAN BRIDGE ── -->
+<h2>🇩🇪→🇬🇧 The German Brain Problem</h2>
+
+<div id="p-german-bridge">
+<p>In German, <em>ich arbeite</em> covers <strong>both</strong> meanings. You say <em>ich arbeite jeden Tag</em> AND <em>ich arbeite gerade</em>. Same verb form. Your German brain learned: "present = one form, context tells you which meaning."</p>
+
+<p>English doesn't work that way. The verb form <strong>itself</strong> tells you the meaning. If you say <em>I work</em> when you mean <em>I am working</em>, native speakers will understand you — but they will hear it as <strong>grammatically wrong</strong>, the way a German would hear <em>ich arbeiten</em> instead of <em>ich arbeite</em>.</p>
+
+<div class="explain">
+  <div class="de">Im Deutschen deckt <em>ich arbeite</em> <strong>beide</strong> Bedeutungen ab — du sagst <em>ich arbeite jeden Tag</em> UND <em>ich arbeite gerade</em>. Gleiche Verbform. Im Englischen sagt die Verbform <strong>selbst</strong>, welche Bedeutung gemeint ist. <em>I work</em> ≠ <em>I am working</em>. Wenn du das falsche verwendest, klingt es für Muttersprachler so falsch wie <em>ich arbeiten</em> für dich.</div>
+  <div class="zh">德语 ich arbeite 涵盖<strong>两种</strong>意思。英语的动词形式<strong>本身</strong>就告诉你意思。<em>I work</em> ≠ <em>I am working</em>。用错了，英语母语者听着就像你听到"我工作着每天"一样别扭。</div>
+</div>
+</div>
+<button class="read-aloud-btn" onclick="playAudio('l3-german-bridge')">🔊 Read this aloud</button>
+
+<!-- ── SIGNAL WORDS ── -->
+<h2>Signal Words — Your Cheat Sheet</h2>
+
+<p>These words almost always tell you which tense to use:</p>
+
+<table>
+  <tr><th>→ Present Simple</th><th>→ Present Continuous</th></tr>
+  <tr><td>always, usually, often, sometimes, never</td><td>now, right now, at the moment, currently</td></tr>
+  <tr><td>every day / week / year</td><td>today, this week / month / year</td></tr>
+  <tr><td>on Mondays, in the morning</td><td>Look! Listen! (imperative clues)</td></tr>
+</table>
+
+<div class="note">
+  <strong>⚠️ Achtung:</strong> <em>always</em> kann auch mit Continuous stehen — wenn es um etwas <strong>Nerviges</strong> geht:<br>
+  <em>"He <strong>is always complaining</strong>!"</em> = Er beschwert sich ständig! (und es nervt)<br>
+  <span class="zh" style="font-size:0.82rem;color:#888;">always 也可以配进行时——表示<strong>烦人的</strong>事：He is always complaining! = 他老在抱怨！（烦死了）</span>
+</div>
+
+<!-- ── QUIZ 1 ── -->
+<div class="quiz-block">
+  <h3>📝 Quiz 1 — Simple or Continuous?</h3>
+  <p style="font-size:0.9rem;color:#888;margin-bottom:1rem;">Type the correct form. Use <strong>present simple</strong> or <strong>present continuous</strong>.</p>
+
+  <div class="quiz-item" data-answer="works">
+    <div class="q">1. She _______ at TUM. <em>(work — her job)</em></div>
+    <input type="text" placeholder="your answer"><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item" data-answer="is working">
+    <div class="q">2. She _______ on a problem right now. <em>(work — at this moment)</em></div>
+    <input type="text" placeholder="your answer"><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item" data-answer="speak">
+    <div class="q">3. They _______ three languages. <em>(speak — ability)</em></div>
+    <input type="text" placeholder="your answer"><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item" data-answer="are speaking">
+    <div class="q">4. Listen! They _______ German. <em>(speak — right now)</em></div>
+    <input type="text" placeholder="your answer"><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item" data-answer="rains">
+    <div class="q">5. It _______ a lot in London. <em>(rain — general fact)</em></div>
+    <input type="text" placeholder="your answer"><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item" data-answer="is raining">
+    <div class="q">6. Take an umbrella — it _______. <em>(rain — right now)</em></div>
+    <input type="text" placeholder="your answer"><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-score" id="score1">
+    You got <span class="percent" id="pct1">0</span> / 6 correct
+  </div>
+</div>
+
+<!-- ── QUIZ 2: Choose ── -->
+<div class="quiz-block">
+  <h3>🎯 Quiz 2 — Choose the Correct Form</h3>
+
+  <div class="quiz-item">
+    <div class="q">7. I _______ breakfast every morning at 7.</div>
+    <div class="mc-options" data-answer="0">
+      <span class="mc-option">eat</span>
+      <span class="mc-option">am eating</span>
+      <span class="mc-option">eats</span>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item">
+    <div class="q">8. Quiet! The baby _______.</div>
+    <div class="mc-options" data-answer="0">
+      <span class="mc-option">is sleeping</span>
+      <span class="mc-option">sleeps</span>
+      <span class="mc-option">sleep</span>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item">
+    <div class="q">9. He usually _______ to work, but today he _______ the bus.</div>
+    <div class="mc-options" data-answer="1">
+      <span class="mc-option">walks / takes</span>
+      <span class="mc-option">walks / is taking</span>
+      <span class="mc-option">is walking / takes</span>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-score" id="score2">
+    You got <span class="percent" id="pct2">0</span> / 3 correct
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  NEW: DIALOGUE — Real English in context   -->
+<!-- ═══════════════════════════════════════════ -->
+<h2>🗣️ Real Dialogue — "At the Library"</h2>
+
+<div id="p-dialogue-intro">
+<p>Here is a short conversation between two students. <strong>Anna</strong> talks about her <em>habits and routines</em> (Present Simple). <strong>Ben</strong> talks about what he is doing <em>right now</em> (Present Continuous). Read it, listen to it, then read it aloud yourself.</p>
+
+<div class="explain">
+  <div class="de">Ein kurzes Gespräch zwischen zwei Studenten. <strong>Anna</strong> spricht über Gewohnheiten (Present Simple). <strong>Ben</strong> spricht darüber, was er gerade tut (Present Continuous). Lies es, hör es dir an, und sprich es dann selbst laut nach.</div>
+  <div class="zh">两个学生之间的简短对话。<strong>Anna</strong>说习惯和日常（一般现在时），<strong>Ben</strong>说此时此刻正在做的事（现在进行时）。先读，再听，然后自己大声读。</div>
+</div>
+</div>
+<button class="read-aloud-btn" onclick="playAudio('l3-dialogue-intro')">🔊 Read this aloud</button>
+
+<div class="dialogue-box">
+  <h3>📖 At the Library</h3>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Anna</div>
+    <div class="en">Hey Ben! What <strong>are</strong> you <strong>doing</strong>? <span class="tense-tag continuous">now</span></div>
+    <div class="de">Hey Ben! Was machst du gerade?</div>
+    <div class="zh">嘿 Ben！你在干嘛？</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">👨 Ben</div>
+    <div class="en">I <strong>am studying</strong> for the math exam. It <strong>is</strong> really hard. <span class="tense-tag continuous">now</span></div>
+    <div class="de">Ich lerne für die Mathe-Prüfung. Die ist echt schwer.</div>
+    <div class="zh">我在复习数学考试。真的好难。</div>
+  </div>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Anna</div>
+    <div class="en">I <strong>know</strong>! I always <strong>study</strong> in the library too. <span class="tense-tag simple">habit</span></div>
+    <div class="de">Ich weiß! Ich lerne auch immer in der Bib.</div>
+    <div class="zh">我知道！我也总是在图书馆学习。</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">👨 Ben</div>
+    <div class="en">Really? I usually <strong>work</strong> at home, but my roommate <strong>is playing</strong> video games right now. <span class="tense-tag simple">habit</span> <span class="tense-tag continuous">now</span></div>
+    <div class="de">Echt? Ich arbeite normalerweise zu Hause, aber mein Mitbewohner zockt gerade.</div>
+    <div class="zh">真的？我通常在家学习，但我室友现在在打游戏。</div>
+  </div>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Anna</div>
+    <div class="en">Ha! My roommate <strong>plays</strong> video games every evening. It <strong>drives</strong> me crazy. <span class="tense-tag simple">habit</span></div>
+    <div class="de">Ha! Mein Mitbewohner zockt jeden Abend. Das macht mich wahnsinnig.</div>
+    <div class="zh">哈！我室友每天晚上打游戏。快把我逼疯了。</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">👨 Ben</div>
+    <div class="en">I <strong>am trying</strong> to focus, but it <strong>is</strong> so loud in here too. <span class="tense-tag continuous">now</span></div>
+    <div class="de">Ich versuche mich zu konzentrieren, aber hier ist es auch so laut.</div>
+    <div class="zh">我在努力集中注意力，但这也太吵了。</div>
+  </div>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Anna</div>
+    <div class="en">Don't worry. I <strong>am leaving</strong> soon. You can have my seat — it <strong>is</strong> near the window. <span class="tense-tag continuous">now</span></div>
+    <div class="de">Keine Sorge. Ich gehe gleich. Du kannst meinen Platz haben — er ist am Fenster.</div>
+    <div class="zh">别担心。我马上走。你可以坐我的位置——靠窗。</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">👨 Ben</div>
+    <div class="en">Thanks! You <strong>are</strong> a lifesaver. <span class="tense-tag simple">fact</span></div>
+    <div class="de">Danke! Du rettest mir den Tag.</div>
+    <div class="zh">谢谢！你救了我的命。</div>
+  </div>
+
+  <div class="tip">
+    <strong>🔊 Listen — full dialogue:</strong> 
+    <audio controls preload="none" style="width:100%;max-width:340px;height:32px;margin-top:0.3rem;">
+      <source src="../audio/l3-dialogue.mp3" type="audio/mpeg">
+    </audio>
+    <span style="font-size:0.8rem;color:var(--dim);">At the Library — complete conversation (Anna & Ben)</span>
+  </div>
+
+  <div class="tip" style="margin-top:0.5rem;">
+    <strong>🔊 Slow version — repeat after me:</strong> 
+    <audio controls preload="none" style="width:100%;max-width:340px;height:32px;margin-top:0.3rem;">
+      <source src="../audio/l3-dialogue-slow.mp3" type="audio/mpeg">
+    </audio>
+    <span style="font-size:0.8rem;color:var(--dim);">Slower pace — pause and repeat each line</span>
+  </div>
+</div>
+
+<!-- ── COUNT THE TENSES ── -->
+<h2>🔍 Find the Tenses</h2>
+<p>In the dialogue above, count how many times each tense appears. Then check your answer:</p>
+
+<div class="card" style="text-align:center;">
+  <p><strong>Present Simple:</strong> 6 times (study, know, work, plays, drives, are)<br>
+  <strong>Present Continuous:</strong> 6 times (are doing, am studying, is playing, am trying, am leaving, is being)</p>
+  <p style="font-size:0.85rem;color:var(--dim);">Perfectly balanced — because real English uses both, all the time.</p>
+</div>
+
+<!-- ── KEY INSIGHT ── -->
+<div class="ellie-says">
+  Here's what I want you to remember: <strong>German has one present. English has two.</strong> This isn't extra complexity — it's extra <em>precision</em>. When you use the right tense, you're not just being "correct." You're telling your listener <strong>exactly when</strong> something happens — right now, or usually. That's a superpower German doesn't give you. Use it. 🦸
+  <br><br>
+  <span class="de" style="font-size:0.9rem;font-style:normal;">Merk dir: <strong>Deutsch hat eine Gegenwart. Englisch hat zwei.</strong> Das ist keine zusätzliche Komplexität — es ist zusätzliche <strong>Präzision</strong>. Wenn du die richtige Zeitform verwendest, sagst du deinem Zuhörer <strong>genau, wann</strong> etwas passiert — gerade jetzt, oder normalerweise. Das ist eine Superkraft, die Deutsch dir nicht gibt. Nutz sie.</span>
+  <br>
+  <span class="zh" style="font-size:0.8rem;color:#888;font-style:normal;">记住：<strong>德语有一个现在时。英语有两个。</strong>这不是额外的复杂度——是额外的<strong>精确度</strong>。用对时态，你不是在"语法正确"——你是在告诉听者<strong>事情到底什么时候发生</strong>——此时此刻，还是通常如此。这是德语给不了你的超能力。用它。</span>
+</div>
+
+<!-- ── NAVIGATION ── -->
+<nav class="lesson-nav">
+  <a href="0002-structural-words.html">← Previous: 0002 — Structural Words</a>
+  <a href="../index.html">Next: 0004 →</a>
+</nav>
+
+<footer>
+  <p>📖 <a href="../reference/grammar-cheat-sheet.html">Grammar Cheat Sheet</a> · <a href="../reference/vocabulary-0001.html">Vocabulary #1</a></p>
+  <p>❓ Confused about when to use which tense? <strong>Ask Ellie.</strong></p>
+  <p style="margin-top: 0.5rem; color: #bbb;">Ellie's English Lab · Lesson 0003 · 2026-07-02</p>
+</footer>
+
+<!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+<script>
+// ── Read-aloud audio mapping ──
+const audioMap = {
+  'l3-intro': '../audio/l3-intro.mp3',
+  'l3-german-bridge': '../audio/l3-german-bridge.mp3',
+  'l3-dialogue-intro': '../audio/l3-dialogue-intro.mp3'
+};
+
+let currentAudio = null;
+
+function playAudio(key) {
+  if (currentAudio) { currentAudio.pause(); }
+  const btn = event.target;
+  if (!audioMap[key]) return;
+
+  currentAudio = new Audio(audioMap[key]);
+  btn.classList.add('playing');
+  btn.textContent = '⏸ Playing...';
+  currentAudio.play();
+
+  currentAudio.onended = () => {
+    btn.classList.remove('playing');
+    btn.textContent = '🔊 Read this aloud';
+    currentAudio = null;
+  };
+  currentAudio.onerror = () => {
+    btn.classList.remove('playing');
+    btn.textContent = '🔊 Read this aloud';
+    currentAudio = null;
+  };
+}
+
+// ── Fill-in-the-blank Quiz ──
+document.querySelectorAll('.quiz-item[data-answer]').forEach(item => {
+  const input = item.querySelector('input');
+  const btn = item.querySelector('.check-btn');
+  const fb = item.querySelector('.feedback');
+  const answer = item.dataset.answer.toLowerCase().trim();
+
+  function check() {
+    const given = input.value.trim().toLowerCase();
+    input.classList.remove('correct', 'wrong');
+    fb.classList.remove('correct', 'wrong');
+    if (given === answer) {
+      input.classList.add('correct');
+      fb.classList.add('correct');
+      fb.textContent = '✅ Perfect!';
+      item.dataset.done = '1';
+    } else {
+      input.classList.add('wrong');
+      fb.classList.add('wrong');
+      fb.textContent = '❌ The answer is: ' + item.dataset.answer + ' (Simple = usually · Continuous = right now)';
+      item.dataset.done = '0';
+    }
+  }
+
+  btn.addEventListener('click', check);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+});
+
+// ── Multiple Choice Quiz ──
+document.querySelectorAll('.mc-options').forEach(mc => {
+  const correctIdx = parseInt(mc.dataset.answer);
+  const options = mc.querySelectorAll('.mc-option');
+  const item = mc.closest('.quiz-item');
+  const fb = item.querySelector('.feedback');
+
+  options.forEach((opt, i) => {
+    opt.addEventListener('click', () => {
+      if (item.dataset.done) return;
+      options.forEach(o => { o.classList.remove('selected', 'correct', 'wrong'); });
+      opt.classList.add('selected');
+      if (i === correctIdx) {
+        opt.classList.add('correct');
+        fb.classList.add('correct');
+        fb.classList.remove('wrong');
+        fb.textContent = '✅ Correct!';
+        item.dataset.done = '1';
+      } else {
+        opt.classList.add('wrong');
+        options[correctIdx].classList.add('correct');
+        fb.classList.add('wrong');
+        fb.classList.remove('correct');
+        fb.textContent = '❌ The correct answer is: ' + options[correctIdx].textContent;
+        item.dataset.done = '0';
+      }
+    });
+  });
+});
+
+// ── Score Calculation ──
+function refreshAllScores() {
+  const q1Items = document.querySelectorAll('.quiz-block:nth-of-type(1) .quiz-item[data-answer]');
+  let q1Total = q1Items.length, q1Correct = 0;
+  q1Items.forEach(item => { if (item.dataset.done === '1') q1Correct++; });
+  const s1 = document.getElementById('score1');
+  const p1 = document.getElementById('pct1');
+  if (q1Correct > 0) { s1.classList.add('show'); p1.textContent = q1Correct + ' / ' + q1Total; }
+
+  const q2Items = document.querySelectorAll('.quiz-block:nth-of-type(2) .mc-options');
+  let q2Total = q2Items.length, q2Correct = 0;
+  q2Items.forEach(mc => { if (mc.closest('.quiz-item').dataset.done === '1') q2Correct++; });
+  const s2 = document.getElementById('score2');
+  const p2 = document.getElementById('pct2');
+  if (q2Correct > 0) { s2.classList.add('show'); p2.textContent = q2Correct + ' / ' + q2Total; }
+
+  const total = q1Total + q2Total;
+  const done = q1Correct + q2Correct;
+  if (done > 0) {
+    document.querySelector('.progress-fill').style.width = Math.round(done / total * 100) + '%';
+  }
+}
+
+document.querySelectorAll('.check-btn').forEach(btn => {
+  btn.addEventListener('click', () => setTimeout(refreshAllScores, 150));
+});
+document.querySelectorAll('.mc-option').forEach(opt => {
+  opt.addEventListener('click', () => setTimeout(refreshAllScores, 150));
+});
+</script>
+
+</body>
+</html>
