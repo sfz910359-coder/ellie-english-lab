@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Review — Ellie's English Lab</title>
+<link rel="stylesheet" href="style/lesson.css">
+<style>
+  body { max-width: 560px; }
+  .srs-header { text-align: center; margin-bottom: 1rem; }
+  .stats-row { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0 1.5rem; }
+  .stat-box { text-align: center; font-family: var(--font-ui); }
+  .stat-box .num { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+  .stat-box .label { font-size: 0.72rem; color: #999; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .progress-line { height: 6px; background: var(--border); border-radius: 3px; margin: 1rem 0; overflow: hidden; }
+  .progress-line .fill { height: 100%; background: var(--green); width: 0%; transition: width 0.3s; }
+
+  /* Card */
+  .card-stage { perspective: 1200px; margin: 1.5rem 0; }
+  .flashcard {
+    position: relative;
+    min-height: 240px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+  }
+  .card-front { background: var(--card); border: 2px solid var(--blue); }
+  .card-back { background: var(--blue-soft); border: 2px solid var(--blue); transform: rotateY(180deg); }
+
+  .card-word { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; font-family: var(--font-en); }
+  .card-example { font-size: 1rem; color: var(--text-light); font-style: italic; margin-top: 0.5rem; }
+  .card-de { font-size: 1.5rem; font-weight: 600; color: var(--blue); margin-bottom: 0.3rem; }
+  .card-zh { font-size: 1.1rem; color: var(--accent); margin-bottom: 0.6rem; }
+  .card-example-de { font-size: 0.9rem; color: var(--text-light); }
+  .flip-hint { font-size: 0.75rem; color: #aaa; margin-top: 1rem; font-family: var(--font-ui); }
+
+  .speak-btn {
+    background: var(--blue); color: #fff; border: none;
+    border-radius: 50%; width: 48px; height: 48px; font-size: 1.3rem;
+    cursor: pointer; margin: 0.5rem; transition: transform 0.15s, background 0.2s;
+  }
+  .speak-btn:active { transform: scale(0.9); }
+  .speak-btn:hover { background: var(--accent); }
+
+  /* Rating buttons */
+  .rating-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin-top: 1rem; }
+  .rate-btn {
+    font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600;
+    padding: 0.9rem 0.5rem; border: none; border-radius: 10px;
+    cursor: pointer; color: #fff; transition: transform 0.1s, opacity 0.2s;
+  }
+  .rate-btn:active { transform: scale(0.95); }
+  .rate-again { background: #c1121f; }
+  .rate-hard { background: #b8860b; }
+  .rate-good { background: #2d7d46; }
+  .rate-btn small { display: block; font-size: 0.68rem; font-weight: 400; opacity: 0.9; margin-top: 0.15rem; }
+
+  .rating-row.hidden, .flip-prompt.hidden { display: none; }
+  .flip-prompt {
+    text-align: center; margin-top: 1rem;
+    font-family: var(--font-ui); font-size: 0.85rem; color: #999;
+  }
+
+  /* End screen */
+  .end-screen { text-align: center; padding: 2rem 1rem; }
+  .end-screen .big-emoji { font-size: 4rem; }
+  .end-screen h2 { border: none; color: var(--accent); }
+  .mode-tabs { display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; flex-wrap: wrap; }
+  .mode-tab {
+    font-family: var(--font-ui); font-size: 0.8rem;
+    padding: 0.4rem 0.9rem; border: 1.5px solid var(--border);
+    border-radius: 20px; background: var(--card); cursor: pointer;
+  }
+  .mode-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .btn-primary {
+    font-family: var(--font-ui); font-size: 0.95rem; font-weight: 600;
+    background: var(--accent); color: #fff; border: none;
+    border-radius: 10px; padding: 0.8rem 1.6rem; cursor: pointer; margin: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="breadcrumb"><a href="index.html">🏠 Course Index</a> › Review</div>
+
+<div class="srs-header">
+  <h1 style="border:none;">🧠 Spaced Repetition Review</h1>
+  <p class="meta" style="margin:0;">Active recall — der einzige Weg, Wörter wirklich zu behalten</p>
+</div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="num" id="stat-due">0</div><div class="label">Due today</div></div>
+  <div class="stat-box"><div class="num" id="stat-learned">0</div><div class="label">Learned</div></div>
+  <div class="stat-box"><div class="num" id="stat-streak">0</div><div class="label">Day streak</div></div>
+</div>
+
+<div class="mode-tabs">
+  <div class="mode-tab active" data-mode="due" onclick="setMode('due')">📅 Due today</div>
+  <div class="mode-tab" data-mode="all" onclick="setMode('all')">📚 All words</div>
+  <div class="mode-tab" data-mode="hard" onclick="setMode('hard')">🔥 Hardest</div>
+</div>
+
+<div class="progress-line"><div class="fill" id="progress-fill"></div></div>
+
+<!-- Card area -->
+<div id="study-area">
+  <div class="card-stage">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="card-face card-front">
+        <div class="card-word" id="front-word">—</div>
+        <button class="speak-btn" onclick="event.stopPropagation(); speakCurrent()">🔊</button>
+        <div class="card-example" id="front-example"></div>
+        <div class="flip-hint">👆 Tap to see meaning</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-de" id="back-de">—</div>
+        <div class="card-zh" id="back-zh"></div>
+        <div class="card-example-de" id="back-example"></div>
+        <div class="flip-hint">👆 Tap to flip back</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-prompt" id="flip-prompt">Denk an die Bedeutung, dann tippe die Karte an 👆</div>
+
+  <div class="rating-row hidden" id="rating-row">
+    <button class="rate-btn rate-again" onclick="rateCard('again')">Wusste ich nicht<small>nochmal heute</small></button>
+    <button class="rate-btn rate-hard" onclick="rateCard('hard')">Schwer<small>bald wieder</small></button>
+    <button class="rate-btn rate-good" onclick="rateCard('good')">Wusste ich!<small>später wieder</small></button>
+  </div>
+</div>
+
+<!-- End screen -->
+<div id="end-screen" class="end-screen" style="display:none;">
+  <div class="big-emoji">🎉</div>
+  <h2>Fertig für heute!</h2>
+  <p id="end-msg"></p>
+  <button class="btn-primary" onclick="location.reload()">↻ Nochmal</button>
+  <a href="index.html" class="btn-primary" style="text-decoration:none;display:inline-block;">🏠 Kurs</a>
+</div>
+
+<!-- ═══ VOCABULARY DATA ═══ -->
+<script type="application/json" id="vocab-data">
+{
+  "cards": [
+    {"id":"add","en":"add","de":"hinzufügen","zh":"添加","ex":"Add it to your portfolio."},
+    {"id":"tracker","en":"tracker","de":"der Verfolger / Aufzeichner","zh":"追踪器","ex":"the Vocabulary Tracker"},
+    {"id":"weave","en":"weave","de":"weben, einflechten","zh":"编织，融入","ex":"I weave it into future lessons."},
+    {"id":"spot","en":"spot (verb)","de":"erkennen, entdecken","zh":"发现，认出","ex":"I can spot patterns."},
+    {"id":"struggling","en":"struggling","de":"sich abmühen, kämpfen","zh":"挣扎，费劲","ex":"Are you struggling with this?"},
+    {"id":"latinate","en":"Latinate","de":"lateinisch-stämmig","zh":"拉丁语源的","ex":"Latinate words like information."},
+    {"id":"present-tense","en":"present tense","de":"die Gegenwart(sform)","zh":"现在时","ex":"English has two present tenses."},
+    {"id":"continuous","en":"continuous","de":"die Verlaufsform (-ing)","zh":"进行时","ex":"I am working — present continuous."},
+    {"id":"habits","en":"habits","de":"die Gewohnheiten","zh":"习惯","ex":"I study every day — that's a habit."},
+    {"id":"routines","en":"routines","de":"die Routinen, der Alltag","zh":"日常，惯例","ex":"my morning routine"},
+    {"id":"exam","en":"exam","de":"die Prüfung","zh":"考试","ex":"I am studying for the math exam."},
+    {"id":"temporary","en":"temporary","de":"vorübergehend, zeitweilig","zh":"暂时的","ex":"a temporary situation this year"},
+    {"id":"focus","en":"focus (verb)","de":"sich konzentrieren","zh":"集中注意力","ex":"I am trying to focus."},
+    {"id":"trained","en":"trained","de":"trainiert, erzogen","zh":"训练，塑造","ex":"German trained your brain that way."},
+    {"id":"slot","en":"slot","de":"das Fach, der Platz","zh":"槽位，空位","ex":"one slot for present tense"},
+    {"id":"general-truths","en":"general truths","de":"allgemeine Wahrheiten","zh":"普遍真理","ex":"Water boils at 100°C — a general truth."},
+    {"id":"cheat-sheet","en":"cheat sheet","de":"der Spickzettel","zh":"速查表","ex":"a signal-words cheat sheet"},
+    {"id":"drives","en":"it drives me crazy","de":"es macht mich wahnsinnig","zh":"让我抓狂","ex":"My roommate's noise drives me crazy."},
+    {"id":"interchangeable","en":"interchangeable","de":"austauschbar","zh":"可互换的","ex":"They are not interchangeable."},
+    {"id":"simple","en":"simple","de":"einfach","zh":"简单的","ex":"the present simple tense"},
+    {"id":"facts","en":"facts","de":"die Fakten, Tatsachen","zh":"事实","ex":"Present simple states facts."},
+    {"id":"the","en":"the","de":"der/die/das (alle Fälle!)","zh":"（定冠词）","ex":"the man, with the man, I see the man"},
+    {"id":"a-an","en":"a / an","de":"ein/eine (a→an vor Vokal)","zh":"一个（不定冠词）","ex":"a book, an apple, an hour"},
+    {"id":"give-up","en":"give up","de":"aufgeben","zh":"放弃","ex":"Don't give up!"},
+    {"id":"break-down","en":"break down","de":"zusammenbrechen","zh":"崩溃，故障","ex":"She broke down in tears."},
+    {"id":"show-up","en":"show up","de":"auftauchen, erscheinen","zh":"出现，露面","ex":"He didn't show up."},
+    {"id":"look-up","en":"look up","de":"nachschlagen","zh":"查找","ex":"Look up the word in a dictionary."},
+    {"id":"depends-on","en":"depend on","de":"abhängen von","zh":"取决于","ex":"It depends on you."},
+    {"id":"interested-in","en":"interested in","de":"interessiert an","zh":"对……感兴趣","ex":"I'm interested in physics."},
+    {"id":"lifesaver","en":"a lifesaver","de":"ein Lebensretter","zh":"救命恩人","ex":"Thanks! You're a lifesaver."}
+  ]
+}
+</script>
+
+<script>
+// ═══════════ SPACED REPETITION ENGINE (Leitner, compressed for 20-day sprint) ═══════════
+const STORAGE_KEY = 'ellie_srs_v1';
+const STATS_KEY = 'ellie_srs_stats';
+
+// Box → days until next review (compressed for intensive learning)
+const BOX_INTERVALS = { 1: 0, 2: 1, 3: 2, 4: 4, 5: 7 };
+const MASTERED_BOX = 5;
+
+const vocab = JSON.parse(document.getElementById('vocab-data').textContent).cards;
+
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveProgress(p) { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }
+
+function loadStats() {
+  try { return JSON.parse(localStorage.getItem(STATS_KEY)) || {streak:0, lastDate:null, total:0}; }
+  catch { return {streak:0, lastDate:null, total:0}; }
+}
+function saveStats(s) { localStorage.setItem(STATS_KEY, JSON.stringify(s)); }
+
+function today() { return new Date().toISOString().slice(0,10); }
+function daysBetween(d1, d2) {
+  return Math.round((new Date(d2) - new Date(d1)) / 86400000);
+}
+
+// Initialize progress for new cards
+let progress = loadProgress();
+vocab.forEach(c => {
+  if (!progress[c.id]) {
+    progress[c.id] = { box: 1, nextReview: today(), correct: 0, wrong: 0 };
+  }
+});
+saveProgress(progress);
+
+// Update streak
+let stats = loadStats();
+(function updateStreak() {
+  const t = today();
+  if (stats.lastDate !== t) {
+    const gap = stats.lastDate ? daysBetween(stats.lastDate, t) : 999;
+    if (gap === 1) stats.streak += 1;
+    else if (gap > 1) stats.streak = 1;
+    else if (!stats.lastDate) stats.streak = 1;
+    stats.lastDate = t;
+    saveStats(stats);
+  }
+})();
+
+let mode = 'due';
+let queue = [];
+let currentCard = null;
+let isFlipped = false;
+let sessionDone = 0;
+
+function buildQueue() {
+  const t = today();
+  if (mode === 'due') {
+    queue = vocab.filter(c => progress[c.id].nextReview <= t && progress[c.id].box < MASTERED_BOX + 1)
+                 .filter(c => !(progress[c.id].box === MASTERED_BOX && progress[c.id].nextReview > t));
+    // include mastered only if due
+    queue = vocab.filter(c => progress[c.id].nextReview <= t);
+    queue.sort((a,b) => progress[a.id].box - progress[b.id].box);
+  } else if (mode === 'all') {
+    queue = [...vocab].sort(() => Math.random() - 0.5);
+  } else if (mode === 'hard') {
+    queue = [...vocab].filter(c => progress[c.id].wrong > 0)
+                      .sort((a,b) => progress[b.id].wrong - progress[a.id].wrong);
+  }
+}
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === m));
+  sessionDone = 0;
+  document.getElementById('study-area').style.display = '';
+  document.getElementById('end-screen').style.display = 'none';
+  buildQueue();
+  nextCard();
+}
+
+function updateStats() {
+  const t = today();
+  const due = vocab.filter(c => progress[c.id].nextReview <= t).length;
+  const learned = vocab.filter(c => progress[c.id].box >= MASTERED_BOX).length;
+  document.getElementById('stat-due').textContent = due;
+  document.getElementById('stat-learned').textContent = learned;
+  document.getElementById('stat-streak').textContent = stats.streak;
+}
+
+function nextCard() {
+  isFlipped = false;
+  document.getElementById('flashcard').classList.remove('flipped');
+  document.getElementById('rating-row').classList.add('hidden');
+  document.getElementById('flip-prompt').classList.remove('hidden');
+
+  const total = queue.length + sessionDone;
+  document.getElementById('progress-fill').style.width = total ? (sessionDone/total*100)+'%' : '0%';
+
+  if (queue.length === 0) { showEnd(); return; }
+  currentCard = queue.shift();
+  document.getElementById('front-word').textContent = currentCard.en;
+  document.getElementById('front-example').textContent = currentCard.ex || '';
+  document.getElementById('back-de').textContent = currentCard.de;
+  document.getElementById('back-zh').textContent = currentCard.zh || '';
+  document.getElementById('back-example').textContent = currentCard.ex || '';
+  updateStats();
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
+  if (isFlipped) {
+    document.getElementById('rating-row').classList.remove('hidden');
+    document.getElementById('flip-prompt').classList.add('hidden');
+    speakCurrent(); // hear it when meaning revealed
+  }
+}
+
+function rateCard(rating) {
+  const p = progress[currentCard.id];
+  if (rating === 'again') { p.box = 1; p.wrong++; p.nextReview = today(); }
+  else if (rating === 'hard') { p.wrong++; p.nextReview = addDays(today(), Math.max(1, BOX_INTERVALS[p.box]-1)); }
+  else if (rating === 'good') {
+    p.correct++;
+    p.box = Math.min(MASTERED_BOX, p.box + 1);
+    p.nextReview = addDays(today(), BOX_INTERVALS[p.box]);
+  }
+  progress[currentCard.id] = p;
+  saveProgress(progress);
+  stats.total++; saveStats(stats);
+  sessionDone++;
+
+  // "again" cards come back this session
+  if (rating === 'again') queue.push(currentCard);
+  nextCard();
+}
+
+function addDays(dateStr, n) {
+  const d = new Date(dateStr);
+  d.setDate(d.getDate() + n);
+  return d.toISOString().slice(0,10);
+}
+
+// ═══ Web Speech API — pronunciation for ANY word, no audio files ═══
+let enVoice = null;
+function pickVoice() {
+  const voices = speechSynthesis.getVoices();
+  enVoice = voices.find(v => v.lang === 'en-US' && /female|Samantha|Aria|Zira|Google US/i.test(v.name))
+         || voices.find(v => v.lang === 'en-US')
+         || voices.find(v => v.lang.startsWith('en'));
+}
+if ('speechSynthesis' in window) {
+  pickVoice();
+  speechSynthesis.onvoiceschanged = pickVoice;
+}
+function speakCurrent() {
+  if (!('speechSynthesis' in window) || !currentCard) return;
+  speechSynthesis.cancel();
+  const text = currentCard.ex || currentCard.en;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.9;
+  if (enVoice) u.voice = enVoice;
+  speechSynthesis.speak(u);
+}
+
+function showEnd() {
+  document.getElementById('study-area').style.display = 'none';
+  const end = document.getElementById('end-screen');
+  end.style.display = '';
+  const learned = vocab.filter(c => progress[c.id].box >= MASTERED_BOX).length;
+  document.getElementById('end-msg').innerHTML =
+    `Du hast <strong>${sessionDone}</strong> Karten wiederholt.<br>` +
+    `<strong>${learned}</strong> von <strong>${vocab.length}</strong> Wörtern gemeistert.<br>` +
+    `🔥 <strong>${stats.streak}</strong> Tage in Folge!<br><br>` +
+    `<span style="font-size:0.85rem;color:#999;">Komm morgen wieder — Spacing ist der Trick.</span>`;
+  updateStats();
+}
+
+// Start
+setMode('due');
+</script>
+
+</body>
+</html>
