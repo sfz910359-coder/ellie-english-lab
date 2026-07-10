@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0004 — Introducing Yourself | Ellie's English Lab</title>
+<link rel="stylesheet" href="../style/lesson.css">
+<style>
+  .read-aloud-btn {
+    display: inline-block; font-family: var(--font-ui); font-size: 0.8rem;
+    background: var(--blue); color: #fff; border: none; border-radius: 4px;
+    padding: 0.3rem 0.7rem; cursor: pointer; margin: 0.3rem 0 0.5rem; transition: background 0.2s;
+  }
+  .read-aloud-btn:hover, .read-aloud-btn.playing { background: var(--accent); }
+  .dialogue-box { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.4rem; margin: 1.5rem 0; }
+  .dialogue-box h3 { margin-top: 0; color: var(--blue); }
+  .dialogue-line { margin: 0.7rem 0; padding: 0.4rem 0.6rem; border-radius: 4px; }
+  .dialogue-line.a { background: var(--blue-soft); }
+  .dialogue-line.b { background: var(--accent-soft); }
+  .dialogue-line .speaker { font-weight: bold; font-size: 0.8rem; color: var(--dim); }
+  .dialogue-line .en { font-size: 1.05rem; }
+  .dialogue-line .de { font-size: 0.9rem; color: #666; margin-top: 0.15rem; }
+  .dialogue-line .zh { font-size: 0.8rem; color: #999; }
+  .phrase-card { background: var(--card); border-left: 4px solid var(--green); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.8rem 1rem; margin: 0.7rem 0; box-shadow: var(--shadow); }
+  .phrase-card .phrase { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+  .phrase-card .de { font-size: 0.9rem; color: #666; }
+  .phrase-card .when { font-size: 0.78rem; color: var(--dim); font-style: italic; margin-top: 0.2rem; }
+  .review-box { background: #f0f4f8; border: 1px dashed var(--blue); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1.5rem 0; }
+  .review-box h4 { margin: 0 0 0.5rem; font-family: var(--font-ui); font-size: 0.85rem; color: var(--blue); text-transform: uppercase; letter-spacing: 0.04em; }
+  .review-box .word-chip { display: inline-block; background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 0.2rem 0.7rem; margin: 0.2rem; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-fill" style="width:0%"></div></div>
+
+<div class="breadcrumb">
+  <a href="../index.html">🏠 Course Index</a> › Lesson 0004 · 🍁 Canada Day 1
+</div>
+
+<h1>0004 — Introducing Yourself</h1>
+<p class="meta">
+  <span>🍁 Canada Survival</span><span>⏱ ~15 min</span><span>🎯 Speaking first</span><span>🇩🇪→🇬🇧 German speaker</span>
+</p>
+
+<!-- ── INTRO ── -->
+<div id="p-intro">
+<p>In 20 days, you land in Canada. Within your first hour, someone <em>will</em> ask you: <strong>"So, where are you from? What do you do?"</strong> This lesson gives you the answers — ready, natural, and true to <em>you</em>: a math student from China who speaks German and is here to improve their English.</p>
+
+<p>Forget perfect grammar. When you introduce yourself, Canadians care about <strong>warmth and clarity</strong>, not accuracy. A friendly wrong sentence beats a perfect silent one.</p>
+
+<div class="explain">
+  <div class="de">In 20 Tagen landest du in Kanada. In der ersten Stunde fragt dich <em>garantiert</em> jemand: "Where are you from? What do you do?" Diese Lektion gibt dir die Antworten — fertig, natürlich, und echt für <em>dich</em>: Mathe-Student aus China, sprichst Deutsch, hier um dein Englisch zu verbessern. Vergiss perfekte Grammatik. Kanadier interessieren sich für <strong>Wärme und Klarheit</strong>, nicht Korrektheit.</div>
+  <div class="zh">20天后你到加拿大。第一个小时内一定有人问你："你从哪来？你做什么的？"这节课给你答案——现成的、自然的、属于<em>你</em>的：来自中国的数学生，会说德语，来这提高英语。忘掉完美语法。加拿大人在意的是<strong>热情和清楚</strong>，不是准确。</div>
+</div>
+</div>
+<button class="read-aloud-btn" onclick="playAudio('l4-intro')">🔊 Read this aloud</button>
+
+<!-- ── CORE PHRASES ── -->
+<h2>Your Toolkit — The Core Phrases</h2>
+<p>These are your building blocks. Learn them until they come out without thinking.</p>
+
+<div class="phrase-card">
+  <div class="phrase">"Hi, I'm Shunyu. Nice to meet you."</div>
+  <div class="de">Hi, ich bin Shunyu. Schön, dich kennenzulernen.</div>
+  <div class="when">→ The universal opener. Always works.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase">"I'm from China — from a city called Yuxi, in the south."</div>
+  <div class="de">Ich komme aus China — aus einer Stadt namens Yuxi, im Süden.</div>
+  <div class="when">→ Naming your city + a hint makes you memorable.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase">"I'm a student. I study mathematics."</div>
+  <div class="de">Ich bin Student. Ich studiere Mathematik.</div>
+  <div class="when">→ Present simple = your identity, your facts. (Remember Lesson 3!)</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase">"I'm here to improve my English and experience life in Canada."</div>
+  <div class="de">Ich bin hier, um mein Englisch zu verbessern und das Leben in Kanada zu erleben.</div>
+  <div class="when">→ Explains why you're here. People love this.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase">"Sorry, could you say that again? I'm still learning."</div>
+  <div class="de">Entschuldigung, könntest du das nochmal sagen? Ich lerne noch.</div>
+  <div class="when">→ Your lifesaver phrase. Use it without shame.</div>
+</div>
+
+<div class="tip">
+  <strong>🔊 Listen — all core phrases:</strong>
+  <audio controls preload="none" style="width:100%;max-width:340px;height:32px;margin-top:0.3rem;">
+    <source src="../audio/l4-phrases.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<!-- ── GERMAN BRIDGE ── -->
+<h2>🇩🇪→🇬🇧 A Trap to Avoid</h2>
+
+<div id="p-trap">
+<p>German speakers often say <em>"I come from China"</em> (from <em>ich komme aus</em>). It's not wrong — but natives say <strong>"I'm from China."</strong> Shorter, warmer, more natural.</p>
+
+<p>Also: don't say <em>"I make my studies"</em> or <em>"I study on the university"</em>. Just: <strong>"I study math"</strong> or <strong>"I'm a student."</strong> Simple wins.</p>
+
+<div class="explain">
+  <div class="de">Deutschsprachige sagen oft "I come from China" (von <em>ich komme aus</em>). Nicht falsch — aber Muttersprachler sagen <strong>"I'm from China"</strong>. Kürzer, wärmer. Und: kein "I make my studies" oder "I study on the university". Nur <strong>"I study math"</strong>. Einfach gewinnt.</div>
+  <div class="zh">德语母语者常说"I come from China"（来自 ich komme aus）。不算错——但母语者说 <strong>"I'm from China"</strong>。更短更亲切。还有：别说"I make my studies"。就说 <strong>"I study math"</strong>。简单为王。</div>
+</div>
+</div>
+<button class="read-aloud-btn" onclick="playAudio('l4-trap')">🔊 Read this aloud</button>
+
+<!-- ── DIALOGUE ── -->
+<h2>🗣️ Real Dialogue — "First Day at the Language School"</h2>
+
+<div id="p-dialogue-intro">
+<p>Shunyu just arrived in Canada. On his first day at the language school, another student, <strong>Maya</strong>, sits down next to him. Read it, listen, then read it aloud — <em>be Shunyu</em>.</p>
+</div>
+<button class="read-aloud-btn" onclick="playAudio('l4-dialogue-intro')">🔊 Read this aloud</button>
+
+<div class="dialogue-box">
+  <h3>📖 First Day at the Language School</h3>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Maya</div>
+    <div class="en">Hi! Is this seat free? ... I'm Maya.</div>
+    <div class="de">Hi! Ist der Platz frei? ... Ich bin Maya.</div>
+    <div class="zh">嗨！这个位子空着吗？……我是 Maya。</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">🧑 Shunyu (you!)</div>
+    <div class="en">Yes, of course! Hi, I'm Shunyu. Nice to meet you.</div>
+    <div class="de">Ja, klar! Hi, ich bin Shunyu. Schön, dich kennenzulernen.</div>
+    <div class="zh">当然！嗨，我是舜宇。很高兴认识你。</div>
+  </div>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Maya</div>
+    <div class="en">Nice to meet you too! Where are you from?</div>
+    <div class="de">Freut mich auch! Woher kommst du?</div>
+    <div class="zh">我也很高兴！你从哪来？</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">🧑 Shunyu</div>
+    <div class="en">I'm from China — from a city called Yuxi, in the south. What about you?</div>
+    <div class="de">Ich komme aus China — aus einer Stadt namens Yuxi, im Süden. Und du?</div>
+    <div class="zh">我来自中国——南方一个叫玉溪的城市。你呢？</div>
+  </div>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Maya</div>
+    <div class="en">I'm from Mexico. So, what do you do? Are you a student?</div>
+    <div class="de">Ich komme aus Mexiko. Und, was machst du? Bist du Student?</div>
+    <div class="zh">我来自墨西哥。那你是做什么的？你是学生吗？</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">🧑 Shunyu</div>
+    <div class="en">Yes, I study mathematics. And I speak German too — it's a long story! I'm here to improve my English.</div>
+    <div class="de">Ja, ich studiere Mathematik. Und ich spreche auch Deutsch — lange Geschichte! Ich bin hier, um mein Englisch zu verbessern.</div>
+    <div class="zh">是的，我学数学。我还会说德语——说来话长！我来这提高英语。</div>
+  </div>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Maya</div>
+    <div class="en">Wow, math AND German? That's impressive. Your English sounds good already!</div>
+    <div class="de">Wow, Mathe UND Deutsch? Beeindruckend. Dein Englisch klingt schon gut!</div>
+    <div class="zh">哇，数学还有德语？厉害。你英语听起来已经不错了！</div>
+  </div>
+
+  <div class="dialogue-line b">
+    <div class="speaker">🧑 Shunyu</div>
+    <div class="en">Thank you! But I'm still learning. Sorry — could you speak a little slower sometimes?</div>
+    <div class="de">Danke! Aber ich lerne noch. Entschuldigung — könntest du manchmal etwas langsamer sprechen?</div>
+    <div class="zh">谢谢！但我还在学。抱歉——你有时能说慢一点吗？</div>
+  </div>
+
+  <div class="dialogue-line a">
+    <div class="speaker">👩 Maya</div>
+    <div class="en">Of course! No problem. We're all here to learn, right?</div>
+    <div class="de">Natürlich! Kein Problem. Wir sind alle hier, um zu lernen, oder?</div>
+    <div class="zh">当然！没问题。我们都是来学习的，对吧？</div>
+  </div>
+
+  <div class="tip">
+    <strong>🔊 Listen — full dialogue:</strong>
+    <audio controls preload="none" style="width:100%;max-width:340px;height:32px;margin-top:0.3rem;">
+      <source src="../audio/l4-dialogue.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="tip" style="margin-top:0.5rem;">
+    <strong>🔊 Slow version — shadow it (read along):</strong>
+    <audio controls preload="none" style="width:100%;max-width:340px;height:32px;margin-top:0.3rem;">
+      <source src="../audio/l4-dialogue-slow.mp3" type="audio/mpeg">
+    </audio>
+    <span style="font-size:0.8rem;color:var(--dim);">Sprich gleichzeitig mit — 1 Sekunde versetzt. Kopiere die Melodie.</span>
+  </div>
+</div>
+
+<!-- ── SHADOWING INSTRUCTION ── -->
+<div class="ellie-says">
+  Here's your homework, and it matters more than any quiz: <strong>shadow the slow dialogue three times.</strong> Play it, and speak along one second behind — like an echo. Don't just read the words; copy the <em>melody</em>, the rhythm, the way the voice goes up and down. This is how your mouth learns to <em>make</em> English sounds, not just recognize them. Fünf Minuten shadowing schlägt eine Stunde stilles Lesen. 🎵
+</div>
+
+<!-- ── QUIZ ── -->
+<div class="quiz-block">
+  <h3>📝 Quiz — Build Your Introduction</h3>
+  <p style="font-size:0.9rem;color:#888;margin-bottom:1rem;">Fill in the natural, native version.</p>
+
+  <div class="quiz-item" data-answer="i'm from china">
+    <div class="q">1. Natural version of "I come from China": <em>(type it)</em></div>
+    <input type="text" placeholder="I'm ..."><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item" data-answer="i study mathematics">
+    <div class="q">2. "What do you do?" → You study math. Say it: <em>(I study ...)</em></div>
+    <input type="text" placeholder="I study ..."><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item" data-answer="nice to meet you">
+    <div class="q">3. The standard reply when you shake hands: <em>(Nice ...)</em></div>
+    <input type="text" placeholder="Nice ..."><button class="check-btn">Check</button>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-item">
+    <div class="q">4. Someone speaks too fast. What's the best thing to say?</div>
+    <div class="mc-options" data-answer="1">
+      <span class="mc-option">"I no understand."</span>
+      <span class="mc-option">"Sorry, could you say that again?"</span>
+      <span class="mc-option">"Repeat, please, now."</span>
+    </div>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="quiz-score" id="score1">
+    You got <span class="percent" id="pct1">0</span> / 4 correct
+  </div>
+</div>
+
+<!-- ── OLD WORDS REVIEW ── -->
+<div class="review-box">
+  <h4>🔄 Words You've Met Before</h4>
+  <p style="font-size:0.85rem;margin:0.3rem 0;">These appeared in today's lesson — you learned them earlier. Tap 🧠 <a href="../review.html">Review</a> to practice them:</p>
+  <span class="word-chip">study (present simple)</span>
+  <span class="word-chip">a long story</span>
+  <span class="word-chip">improve</span>
+  <span class="word-chip">still learning</span>
+  <span class="word-chip">impressive</span>
+</div>
+
+<!-- ── NAVIGATION ── -->
+<nav class="lesson-nav">
+  <a href="0003-present-simple-vs-continuous.html">← Previous: 0003</a>
+  <a href="../index.html">Next: 0005 — Ordering Food →</a>
+</nav>
+
+<footer>
+  <p>🧠 <a href="../review.html">Daily Review</a> · 📅 <a href="../CANADA-20-DAY-PLAN.md">20-Day Plan</a></p>
+  <p>❓ A word or phrase you don't know? <strong>Send it to Ellie</strong> like &lt;word1, word2&gt;.</p>
+  <p style="margin-top: 0.5rem; color: #bbb;">Ellie's English Lab · Lesson 0004 · Canada Day 1 · 2026-07-03</p>
+</footer>
+
+<script>
+const audioMap = {
+  'l4-intro': '../audio/l4-intro.mp3',
+  'l4-trap': '../audio/l4-trap.mp3',
+  'l4-dialogue-intro': '../audio/l4-dialogue-intro.mp3'
+};
+let currentAudio = null;
+function playAudio(key) {
+  if (currentAudio) currentAudio.pause();
+  const btn = event.target;
+  if (!audioMap[key]) return;
+  currentAudio = new Audio(audioMap[key]);
+  btn.classList.add('playing'); btn.textContent = '⏸ Playing...';
+  currentAudio.play();
+  currentAudio.onended = currentAudio.onerror = () => { btn.classList.remove('playing'); btn.textContent = '🔊 Read this aloud'; currentAudio = null; };
+}
+
+document.querySelectorAll('.quiz-item[data-answer]').forEach(item => {
+  const input = item.querySelector('input'); const btn = item.querySelector('.check-btn'); const fb = item.querySelector('.feedback');
+  const answer = item.dataset.answer.toLowerCase().trim();
+  function check() {
+    const given = input.value.trim().toLowerCase().replace(/[.,!?]/g,'');
+    input.classList.remove('correct','wrong'); fb.classList.remove('correct','wrong');
+    if (given === answer || given === answer.replace(/'/g,'')) {
+      input.classList.add('correct'); fb.classList.add('correct'); fb.textContent = '✅ Perfect!'; item.dataset.done = '1';
+    } else {
+      input.classList.add('wrong'); fb.classList.add('wrong'); fb.textContent = '❌ Try: "' + item.dataset.answer + '"'; item.dataset.done = '0';
+    }
+  }
+  btn.addEventListener('click', check);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+});
+
+document.querySelectorAll('.mc-options').forEach(mc => {
+  const correctIdx = parseInt(mc.dataset.answer); const options = mc.querySelectorAll('.mc-option');
+  const item = mc.closest('.quiz-item'); const fb = item.querySelector('.feedback');
+  options.forEach((opt, i) => {
+    opt.addEventListener('click', () => {
+      if (item.dataset.done) return;
+      options.forEach(o => o.classList.remove('selected','correct','wrong'));
+      opt.classList.add('selected');
+      if (i === correctIdx) { opt.classList.add('correct'); fb.classList.add('correct'); fb.classList.remove('wrong'); fb.textContent = '✅ Correct!'; item.dataset.done = '1'; }
+      else { opt.classList.add('wrong'); options[correctIdx].classList.add('correct'); fb.classList.add('wrong'); fb.classList.remove('correct'); fb.textContent = '❌ Correct: ' + options[correctIdx].textContent; item.dataset.done = '0'; }
+    });
+  });
+});
+
+function refreshScore() {
+  const items = document.querySelectorAll('.quiz-item');
+  let total = items.length, done = 0;
+  items.forEach(i => { if (i.dataset.done === '1') done++; });
+  const s = document.getElementById('score1'), p = document.getElementById('pct1');
+  if (done > 0) { s.classList.add('show'); p.textContent = done + ' / ' + total; document.querySelector('.progress-fill').style.width = Math.round(done/total*100)+'%'; }
+}
+document.querySelectorAll('.check-btn').forEach(b => b.addEventListener('click', () => setTimeout(refreshScore,150)));
+document.querySelectorAll('.mc-option').forEach(o => o.addEventListener('click', () => setTimeout(refreshScore,150)));
+</script>
+
+</body>
+</html>
