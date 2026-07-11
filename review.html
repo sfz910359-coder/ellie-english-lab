@@ -115,6 +115,7 @@
   <div class="mode-tab active" data-mode="due" onclick="setMode('due')">📅 Due today</div>
   <div class="mode-tab" data-mode="all" onclick="setMode('all')">📚 All words</div>
   <div class="mode-tab" data-mode="hard" onclick="setMode('hard')">🔥 Hardest</div>
+  <div class="mode-tab" data-mode="spell" onclick="setMode('spell')">✏️ Spelling</div>
 </div>
 
 <div class="progress-line"><div class="fill" id="progress-fill"></div></div>
@@ -144,6 +145,26 @@
     <button class="rate-btn rate-again" onclick="rateCard('again')">Wusste ich nicht<small>nochmal heute</small></button>
     <button class="rate-btn rate-hard" onclick="rateCard('hard')">Schwer<small>bald wieder</small></button>
     <button class="rate-btn rate-good" onclick="rateCard('good')">Wusste ich!<small>später wieder</small></button>
+  </div>
+</div>
+
+<!-- Spelling area -->
+<div id="spell-area" style="display:none;">
+  <div class="card-stage">
+    <div style="background:var(--card);border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.12);padding:2rem 1.5rem;text-align:center;">
+      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--dim);margin-bottom:0.5rem;">Type the English word</div>
+      <div style="font-size:1.5rem;font-weight:700;color:var(--blue);margin-bottom:0.3rem;" id="spell-de">—</div>
+      <div style="font-size:1rem;color:var(--accent);margin-bottom:1rem;" id="spell-zh">—</div>
+      <input type="text" id="spell-input" placeholder="type the English word..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+             style="font-family:var(--font-en);font-size:1.2rem;padding:0.6rem 1rem;border:2px solid var(--border);border-radius:8px;width:80%;max-width:280px;text-align:center;"
+             onkeydown="if(event.key==='Enter')checkSpelling()">
+      <div style="margin-top:0.8rem;">
+        <button class="btn-primary" onclick="checkSpelling()" style="font-size:0.9rem;margin:0 0.3rem;">Check</button>
+        <button class="btn-primary" onclick="speakSpellWord()" style="font-size:0.9rem;margin:0 0.3rem;background:var(--blue);">🔊 Hear it</button>
+      </div>
+      <div id="spell-feedback" style="margin-top:1rem;min-height:3rem;font-size:1rem;font-weight:600;"></div>
+      <div id="spell-score" style="font-size:0.85rem;color:var(--dim);margin-top:0.5rem;"></div>
+    </div>
   </div>
 </div>
 
@@ -190,13 +211,27 @@
     {"id":"depends-on","en":"depend on","de":"abhängen von","zh":"取决于","ex":"It depends on you."},
     {"id":"interested-in","en":"interested in","de":"interessiert an","zh":"对……感兴趣","ex":"I'm interested in physics."},
     {"id":"lifesaver","en":"a lifesaver","de":"ein Lebensretter","zh":"救命恩人","ex":"Thanks! You're a lifesaver."},
+    {"id":"say-again","en":"Could you say that again?","de":"Könntest du das nochmal sagen?","zh":"你能再说一遍吗？","ex":"Sorry, could you say that again?"},
+    {"id":"conversation","en":"conversation","de":"das Gespräch, die Unterhaltung","zh":"对话，交谈","ex":"your first conversation in Canada"},
     {"id":"improve","en":"improve","de":"verbessern","zh":"提高，改善","ex":"I'm here to improve my English."},
+    {"id":"their","en":"their (possessive)","de":"ihr/Ihr (Possessiv Plural)","zh":"他们的/她们的","ex":"to improve their English"},
+    {"id":"warmth","en":"warmth","de":"die Wärme (auch: Herzlichkeit)","zh":"温暖，热情","ex":"Canadians care about warmth."},
+    {"id":"clarity","en":"clarity","de":"die Klarheit, Deutlichkeit","zh":"清晰，明确","ex":"warmth and clarity, not accuracy"},
+    {"id":"accuracy","en":"accuracy","de":"die Genauigkeit, Korrektheit","zh":"准确性","ex":"not accuracy — warmth first"},
+    {"id":"beat","en":"beat (verb: übertreffen)","de":"schlagen, übertreffen","zh":"胜过，打败","ex":"A wrong sentence beats a silent one."},
+    {"id":"matters","en":"matters (verb)","de":"zählt, ist von Bedeutung","zh":"重要，要紧","ex":"It matters more than any quiz."},
+    {"id":"until","en":"until","de":"bis (zeitlich)","zh":"直到","ex":"Learn them until they come out without thinking."},
+    {"id":"universal","en":"universal","de":"universell, allgemeingültig","zh":"通用的，普遍的","ex":"The universal opener."},
+    {"id":"memorable","en":"memorable","de":"einprägsam, unvergesslich","zh":"难忘的，好记的","ex":"A hint makes you memorable."},
+    {"id":"shadow","en":"shadow (verb)","de":"einen Schatten sein → mitgehen, nachahmen","zh":"影子，跟读","ex":"Shadow the slow dialogue."},
+    {"id":"shake-hands","en":"shake hands","de":"Hände schütteln","zh":"握手","ex":"when you shake hands"},
+    {"id":"appeared","en":"appeared","de":"erschienen, tauchten auf","zh":"出现","ex":"These words appeared in the lesson."},
     {"id":"experience","en":"experience (verb)","de":"erleben, erfahren","zh":"体验，经历","ex":"experience life in Canada"},
     {"id":"impressive","en":"impressive","de":"beeindruckend","zh":"令人印象深刻的","ex":"Math and German? That's impressive."},
     {"id":"a-long-story","en":"it's a long story","de":"das ist eine lange Geschichte","zh":"说来话长","ex":"I speak German too — it's a long story!"},
     {"id":"nice-to-meet","en":"Nice to meet you","de":"Schön, dich kennenzulernen","zh":"很高兴认识你","ex":"Hi, I'm Shunyu. Nice to meet you."},
     {"id":"seat-free","en":"Is this seat free?","de":"Ist der Platz frei?","zh":"这位子空着吗？","ex":"Hi! Is this seat free?"},
-    {"id":"what-about-you","en":"What about you?","de":"Und du? / Was ist mit dir?","zh":"你呢？","ex":"I'm from China. What about you?"},
+    {"id":"what-about-you","en":"What about you?","de":"Und du? / Was ist mit dir?","zh":"你呢？","ex":"I'm from China. What about you?"}
     {"id":"say-again","en":"Could you say that again?","de":"Könntest du das nochmal sagen?","zh":"你能再说一遍吗？","ex":"Sorry, could you say that again?"}
   ]
 }
@@ -262,9 +297,6 @@ let sessionDone = 0;
 function buildQueue() {
   const t = today();
   if (mode === 'due') {
-    queue = vocab.filter(c => progress[c.id].nextReview <= t && progress[c.id].box < MASTERED_BOX + 1)
-                 .filter(c => !(progress[c.id].box === MASTERED_BOX && progress[c.id].nextReview > t));
-    // include mastered only if due
     queue = vocab.filter(c => progress[c.id].nextReview <= t);
     queue.sort((a,b) => progress[a.id].box - progress[b.id].box);
   } else if (mode === 'all') {
@@ -273,16 +305,6 @@ function buildQueue() {
     queue = [...vocab].filter(c => progress[c.id].wrong > 0)
                       .sort((a,b) => progress[b.id].wrong - progress[a.id].wrong);
   }
-}
-
-function setMode(m) {
-  mode = m;
-  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === m));
-  sessionDone = 0;
-  document.getElementById('study-area').style.display = '';
-  document.getElementById('end-screen').style.display = 'none';
-  buildQueue();
-  nextCard();
 }
 
 function updateStats() {
@@ -373,6 +395,7 @@ function speakCurrent() {
 
 function showEnd() {
   document.getElementById('study-area').style.display = 'none';
+  document.getElementById('spell-area').style.display = 'none';
   const end = document.getElementById('end-screen');
   end.style.display = '';
   const learned = vocab.filter(c => progress[c.id].box >= MASTERED_BOX).length;
@@ -382,6 +405,99 @@ function showEnd() {
     `🔥 <strong>${stats.streak}</strong> Tage in Folge!<br><br>` +
     `<span style="font-size:0.85rem;color:#999;">Komm morgen wieder — Spacing ist der Trick.</span>`;
   updateStats();
+}
+
+// ═══ SPELLING MODE ═══
+let spellQueue = [], spellCorrect = 0, spellTotal = 0;
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === m));
+  sessionDone = 0;
+  document.getElementById('study-area').style.display = (m === 'spell') ? 'none' : '';
+  document.getElementById('spell-area').style.display = (m === 'spell') ? '' : 'none';
+  document.getElementById('end-screen').style.display = 'none';
+  if (m === 'spell') {
+    startSpelling();
+  } else {
+    buildQueue();
+    nextCard();
+  }
+}
+
+function startSpelling() {
+  spellQueue = [...vocab].sort(() => Math.random() - 0.5);
+  spellCorrect = 0; spellTotal = 0;
+  document.getElementById('spell-feedback').textContent = '';
+  document.getElementById('spell-feedback').style.color = '';
+  document.getElementById('spell-score').textContent = '';
+  document.getElementById('progress-fill').style.width = '0%';
+  nextSpellWord();
+}
+
+function nextSpellWord() {
+  if (spellQueue.length === 0) {
+    document.getElementById('spell-feedback').innerHTML = `🎉 Fertig! <strong>${spellCorrect}/${spellTotal}</strong> richtig geschrieben.`;
+    document.getElementById('spell-score').textContent = '';
+    document.getElementById('spell-de').textContent = '—';
+    document.getElementById('spell-zh').textContent = '—';
+    document.getElementById('spell-input').value = '';
+    return;
+  }
+  currentCard = spellQueue.pop();
+  document.getElementById('spell-de').textContent = currentCard.de;
+  document.getElementById('spell-zh').textContent = currentCard.zh || '';
+  document.getElementById('spell-input').value = '';
+  document.getElementById('spell-feedback').textContent = '';
+  document.getElementById('spell-feedback').style.color = '';
+  document.getElementById('spell-score').textContent = `${spellTotal} done · ${spellCorrect} correct`;
+  document.getElementById('progress-fill').style.width = (spellQueue.length + spellTotal) ? (spellTotal/(spellQueue.length+spellTotal)*100)+'%' : '0%';
+  document.getElementById('spell-input').focus();
+}
+
+function checkSpelling() {
+  const input = document.getElementById('spell-input');
+  const given = input.value.trim();
+  if (!given || !currentCard) return;
+
+  // Normalize: strip punctuation, case-insensitive
+  const normalize = s => s.toLowerCase().replace(/[.,!?;:'"()]/g,'').replace(/\s+/g,' ').trim();
+  const target = normalize(currentCard.en);
+  const user = normalize(given);
+
+  spellTotal++;
+  const fb = document.getElementById('spell-feedback');
+  if (user === target) {
+    spellCorrect++;
+    fb.innerHTML = `✅ <strong>${currentCard.en}</strong>`;
+    fb.style.color = 'var(--green)';
+  } else {
+    fb.innerHTML = `❌ <strong>${currentCard.en}</strong> ← you typed: "${given}"`;
+    fb.style.color = '#c1121f';
+    // Put failed word back for another try
+    spellQueue.unshift(currentCard);
+  }
+  document.getElementById('spell-score').textContent = `${spellTotal} done · ${spellCorrect} correct`;
+
+  // Speak the correct word
+  if ('speechSynthesis' in window) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(currentCard.en);
+    u.lang = 'en-US'; u.rate = 0.85;
+    if (enVoice) u.voice = enVoice;
+    speechSynthesis.speak(u);
+  }
+
+  setTimeout(nextSpellWord, 1200);
+}
+
+function speakSpellWord() {
+  if (!currentCard || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(currentCard.en);
+  u.lang = 'en-US'; u.rate = 0.8;
+  if (enVoice) u.voice = enVoice;
+  speechSynthesis.speak(u);
 }
 
 // Start
