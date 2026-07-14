@@ -259,7 +259,22 @@
     {"id":"phrase","en":"phrase","de":"der Ausdruck, die Wendung","zh":"短语","ex":"the magic phrase"},
     {"id":"awkward","en":"awkward","de":"peinlich, unangenehm","zh":"尴尬","ex":"That was awkward."},
     {"id":"repeat","en":"repeat","de":"wiederholen","zh":"重复","ex":"Could you repeat that?"},
-    {"id":"other","en":"other","de":"andere(r/s)","zh":"其他的","ex":"other campers"}
+    {"id":"other","en":"other","de":"andere(r/s)","zh":"其他的","ex":"other campers"},
+    {"id":"donut","en":"donut","de":"der Donut","zh":"甜甜圈","ex":"coffee and donuts"},
+    {"id":"muffin","en":"muffin","de":"der Muffin","zh":"松饼","ex":"Can I have a muffin?"},
+    {"id":"bagel","en":"bagel","de":"der Bagel","zh":"贝果","ex":"a bagel with cream cheese"},
+    {"id":"chocolate","en":"chocolate","de":"die Schokolade","zh":"巧克力","ex":"hot chocolate"},
+    {"id":"cream","en":"cream","de":"die Sahne","zh":"奶油","ex":"cream or sugar?"},
+    {"id":"sugar","en":"sugar","de":"der Zucker","zh":"糖","ex":"cream or sugar?"},
+    {"id":"medium","en":"medium","de":"mittel(groß)","zh":"中杯/中号","ex":"a medium coffee"},
+    {"id":"counter","en":"counter","de":"die Theke, der Schalter","zh":"柜台","ex":"behind the counter"},
+    {"id":"cashier","en":"cashier","de":"der/die Kassierer/in","zh":"收银员","ex":"The cashier laughed."},
+    {"id":"ordering","en":"ordering","de":"bestellen","zh":"点餐","ex":"ordering food"},
+    {"id":"tongue","en":"tongue","de":"die Zunge","zh":"舌头","ex":"I burned my tongue."},
+    {"id":"burned","en":"burned","de":"verbrannt","zh":"烫伤，烧","ex":"I burned my tongue."},
+    {"id":"sip","en":"sip","de":"der Schluck, nippen","zh":"小口喝","ex":"the first sip"},
+    {"id":"cup","en":"cup","de":"die Tasse, der Becher","zh":"杯子","ex":"almost dropped the cup"},
+    {"id":"dropped","en":"dropped","de":"fallen gelassen","zh":"掉落","ex":"almost dropped the cup"}
   ]
 }
 </script>
@@ -472,7 +487,9 @@ function nextSpellWord() {
     return;
   }
   currentCard = spellQueue.pop();
-  document.getElementById('spell-de').textContent = currentCard.de;
+  // Clean display: strip "(verb)" etc from DE
+  const cleanDe = currentCard.de.replace(/\s*\(.*?\)\s*/g, ' ').trim();
+  document.getElementById('spell-de').textContent = cleanDe;
   document.getElementById('spell-zh').textContent = currentCard.zh || '';
   document.getElementById('spell-input').value = '';
   document.getElementById('spell-feedback').textContent = '';
@@ -487,8 +504,8 @@ function checkSpelling() {
   const given = input.value.trim();
   if (!given || !currentCard) return;
 
-  // Normalize: strip punctuation, case-insensitive
-  const normalize = s => s.toLowerCase().replace(/[.,!?;:'"()]/g,'').replace(/\s+/g,' ').trim();
+  // Normalize: strip punctuation, parenthetical notes, case-insensitive
+  const normalize = s => s.toLowerCase().replace(/[.,!?;:'"()]/g,'').replace(/\s*\(.*?\)\s*/g,' ').replace(/\s+/g,' ').trim();
   const target = normalize(currentCard.en);
   const user = normalize(given);
 
