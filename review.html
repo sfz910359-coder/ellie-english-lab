@@ -283,6 +283,7 @@
 // ═══════════ SPACED REPETITION ENGINE (Leitner, compressed for 20-day sprint) ═══════════
 const STORAGE_KEY = 'ellie_srs_v1';
 const STATS_KEY = 'ellie_srs_stats';
+const SESSION_KEY = 'ellie_srs_session';
 
 // Box → days until next review (compressed for intensive learning)
 const BOX_INTERVALS = { 1: 0, 2: 1, 3: 2, 4: 4, 5: 7 };
@@ -341,12 +342,36 @@ function buildQueue() {
   if (mode === 'due') {
     queue = vocab.filter(c => progress[c.id].nextReview <= t);
     queue.sort((a,b) => progress[a.id].box - progress[b.id].box);
+    if (queue.length > 20) queue = queue.slice(0, 20);
   } else if (mode === 'all') {
     queue = [...vocab].sort(() => Math.random() - 0.5);
+    if (queue.length > 20) queue = queue.slice(0, 20);
   } else if (mode === 'hard') {
     queue = [...vocab].filter(c => progress[c.id].wrong > 0)
                       .sort((a,b) => progress[b.id].wrong - progress[a.id].wrong);
+    if (queue.length > 20) queue = queue.slice(0, 20);
   }
+}
+
+// Start — resume saved session or start fresh
+let resumed = loadSession();
+if (resumed && resumed.mode === 'spell') {
+  mode = 'spell';
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === 'spell'));
+  document.getElementById('study-area').style.display = 'none';
+  document.getElementById('spell-area').style.display = '';
+  if (spellQueue.length > 0) nextSpellWord();
+  else { document.getElementById('spell-feedback').innerHTML = `🎉 <strong>${spellCorrect}/${spellTotal}</strong> richtig.`; }
+  updateStats();
+} else if (resumed && queue.length > 0) {
+  mode = resumed.mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.getElementById('study-area').style.display = '';
+  document.getElementById('spell-area').style.display = 'none';
+  updateStats();
+  nextCard();
+} else {
+  setMode('due');
 }
 
 function updateStats() {
@@ -401,7 +426,9 @@ function rateCard(rating) {
   stats.total++; saveStats(stats);
   sessionDone++;
 
-  // "again" cards come back this session
+  // Save session state for resume
+  saveSession();
+
   if (rating === 'again') queue.push(currentCard);
   nextCard();
 }
@@ -435,17 +462,52 @@ function speakCurrent() {
   speechSynthesis.speak(u);
 }
 
+// ═══ SESSION PERSISTENCE ═══
+function saveSession() {
+  const state = {
+    mode: mode,
+    queueIds: queue.map(c => c.id),
+    sessionDone: sessionDone,
+    spellQueueIds: spellQueue.map(c => c.id),
+    spellCorrect: spellCorrect,
+    spellTotal: spellTotal,
+    timestamp: Date.now()
+  };
+  localStorage.setItem(SESSION_KEY, JSON.stringify(state));
+}
+function clearSession() { localStorage.removeItem(SESSION_KEY); }
+function loadSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (Date.now() - s.timestamp > 7200000) { clearSession(); return null; }
+    if (s.mode === 'spell') {
+      spellQueue = s.spellQueueIds.map(id => vocab.find(c => c.id === id)).filter(Boolean);
+      spellCorrect = s.spellCorrect || 0;
+      spellTotal = s.spellTotal || 0;
+    } else {
+      queue = s.queueIds.map(id => vocab.find(c => c.id === id)).filter(Boolean);
+      sessionDone = s.sessionDone || 0;
+    }
+    return s;
+  } catch { return null; }
+}
+
 function showEnd() {
   document.getElementById('study-area').style.display = 'none';
   document.getElementById('spell-area').style.display = 'none';
   const end = document.getElementById('end-screen');
   end.style.display = '';
+  clearSession();
   const learned = vocab.filter(c => progress[c.id].box >= MASTERED_BOX).length;
+  const remaining = vocab.filter(c => progress[c.id].nextReview <= today() && progress[c.id].box < MASTERED_BOX).length;
   document.getElementById('end-msg').innerHTML =
     `Du hast <strong>${sessionDone}</strong> Karten wiederholt.<br>` +
     `<strong>${learned}</strong> von <strong>${vocab.length}</strong> Wörtern gemeistert.<br>` +
+    (remaining > 0 ? `📅 <strong>${remaining}</strong> weitere heute fällig — mach später weiter.<br>` : '') +
     `🔥 <strong>${stats.streak}</strong> Tage in Folge!<br><br>` +
-    `<span style="font-size:0.85rem;color:#999;">Komm morgen wieder — Spacing ist der Trick.</span>`;
+    `<span style="font-size:0.85rem;color:#999;">Fortschritt gespeichert — du kannst weitermachen.</span>`;
   updateStats();
 }
 
@@ -544,8 +606,7 @@ function speakSpellWord() {
   speechSynthesis.speak(u);
 }
 
-// Start
-setMode('due');
+// Start — handled above with resume logic
 </script>
 
 </body>
