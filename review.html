@@ -274,7 +274,22 @@
     {"id":"burned","en":"burned","de":"verbrannt","zh":"烫伤，烧","ex":"I burned my tongue."},
     {"id":"sip","en":"sip","de":"der Schluck, nippen","zh":"小口喝","ex":"the first sip"},
     {"id":"cup","en":"cup","de":"die Tasse, der Becher","zh":"杯子","ex":"almost dropped the cup"},
-    {"id":"dropped","en":"dropped","de":"fallen gelassen","zh":"掉落","ex":"almost dropped the cup"}
+    {"id":"dropped","en":"dropped","de":"fallen gelassen","zh":"掉落","ex":"almost dropped the cup"},
+    {"id":"hike","en":"hike","de":"die Wanderung","zh":"徒步，远足","ex":"the hike tomorrow"},
+    {"id":"few","en":"a few","de":"ein paar","zh":"几个","ex":"just a few hours"},
+    {"id":"barely","en":"barely","de":"kaum","zh":"几乎不","ex":"I can barely handle two."},
+    {"id":"honestly","en":"honestly","de":"ehrlich gesagt","zh":"老实说","ex":"My English still needs work, honestly."},
+    {"id":"lately","en":"lately","de":"in letzter Zeit","zh":"最近（时间）","ex":"I've been listening to a lot of TS lately."},
+    {"id":"especially","en":"especially","de":"besonders, vor allem","zh":"尤其是","ex":"Folklore, especially."},
+    {"id":"threw","en":"threw (throw)","de":"warf (werfen)","zh":"扔（过去式）","ex":"Someone threw on another log."},
+    {"id":"log","en":"log (wood)","de":"der Holzscheit","zh":"木柴，圆木","ex":"threw on another log"},
+    {"id":"sparks","en":"sparks","de":"die Funken","zh":"火星，火花","ex":"Sparks flew up."},
+    {"id":"marshmallow","en":"marshmallow","de":"das Marshmallow","zh":"棉花糖","ex":"a marshmallow on a stick"},
+    {"id":"stick","en":"stick","de":"der Stock","zh":"棍子","ex":"a marshmallow on a stick"},
+    {"id":"already","en":"already","de":"schon, bereits","zh":"已经","ex":"already burned black"},
+    {"id":"fifth","en":"fifth","de":"fünfte(r/s)","zh":"第五","ex":"the fifth wrong chord"},
+    {"id":"between","en":"between","de":"zwischen","zh":"在……之间","ex":"between the second and the fifth"},
+    {"id":"wrong","en":"wrong","de":"falsch","zh":"错的","ex":"the fifth wrong chord"}
   ]
 }
 </script>
@@ -515,6 +530,7 @@ function showEnd() {
 let spellQueue = [], spellCorrect = 0, spellTotal = 0;
 
 function setMode(m) {
+  clearSession(); // switching modes clears saved session
   mode = m;
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === m));
   sessionDone = 0;
