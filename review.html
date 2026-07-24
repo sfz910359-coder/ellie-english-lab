@@ -114,7 +114,7 @@
 <div class="mode-tabs">
   <div class="mode-tab active" data-mode="due" onclick="setMode('due')">📅 Due today</div>
   <div class="mode-tab" data-mode="all" onclick="setMode('all')">📚 All words</div>
-  <div class="mode-tab" data-mode="hard" onclick="setMode('hard')">🔥 Hardest</div>
+  <div class="mode-tab" data-mode="mixed" onclick="setMode('mixed')">🔀 Mixed</div>
   <div class="mode-tab" data-mode="spell" onclick="setMode('spell')">✏️ Spelling</div>
 </div>
 
@@ -168,6 +168,20 @@
   </div>
 </div>
 
+<!-- Mini-spell area (for mixed mode) -->
+<div id="mini-spell" style="display:none;text-align:center;padding:1.5rem;">
+  <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--dim);margin-bottom:0.5rem;">✏️ Spell it! (DE→EN)</div>
+  <div style="font-size:1.4rem;font-weight:700;color:var(--blue);margin-bottom:1rem;" id="mini-spell-de">—</div>
+  <input type="text" id="mini-spell-input" placeholder="type the English word..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+         style="font-family:var(--font-en);font-size:1.1rem;padding:0.5rem 1rem;border:2px solid var(--border);border-radius:8px;width:70%;max-width:260px;text-align:center;"
+         onkeydown="if(event.key==='Enter')checkMiniSpell()">
+  <div style="margin-top:0.8rem;">
+    <button class="btn-primary" onclick="checkMiniSpell()" style="font-size:0.85rem;">Check</button>
+    <button class="btn-primary" onclick="speakMiniSpell()" style="font-size:0.85rem;background:var(--blue);">🔊</button>
+  </div>
+  <div id="mini-spell-fb" style="margin-top:0.8rem;font-weight:600;min-height:1.5rem;"></div>
+</div>
+
 <!-- End screen -->
 <div id="end-screen" class="end-screen" style="display:none;">
   <div class="big-emoji">🎉</div>
@@ -178,121 +192,850 @@
 </div>
 
 <!-- ═══ VOCABULARY DATA ═══ -->
-<script type="application/json" id="vocab-data">
-{
+<script type="application/json" id="vocab-data">{
   "cards": [
-    {"id":"add","en":"add","de":"hinzufügen","zh":"添加","ex":"Add it to your portfolio."},
-    {"id":"tracker","en":"tracker","de":"der Verfolger / Aufzeichner","zh":"追踪器","ex":"the Vocabulary Tracker"},
-    {"id":"weave","en":"weave","de":"weben, einflechten","zh":"编织，融入","ex":"I weave it into future lessons."},
-    {"id":"spot","en":"spot (verb)","de":"erkennen, entdecken","zh":"发现，认出","ex":"I can spot patterns."},
-    {"id":"struggling","en":"struggling","de":"sich abmühen, kämpfen","zh":"挣扎，费劲","ex":"Are you struggling with this?"},
-    {"id":"latinate","en":"Latinate","de":"lateinisch-stämmig","zh":"拉丁语源的","ex":"Latinate words like information."},
-    {"id":"present-tense","en":"present tense","de":"die Gegenwart(sform)","zh":"现在时","ex":"English has two present tenses."},
-    {"id":"continuous","en":"continuous","de":"die Verlaufsform (-ing)","zh":"进行时","ex":"I am working — present continuous."},
-    {"id":"habits","en":"habits","de":"die Gewohnheiten","zh":"习惯","ex":"I study every day — that's a habit."},
-    {"id":"routines","en":"routines","de":"die Routinen, der Alltag","zh":"日常，惯例","ex":"my morning routine"},
-    {"id":"exam","en":"exam","de":"die Prüfung","zh":"考试","ex":"I am studying for the math exam."},
-    {"id":"temporary","en":"temporary","de":"vorübergehend, zeitweilig","zh":"暂时的","ex":"a temporary situation this year"},
-    {"id":"focus","en":"focus (verb)","de":"sich konzentrieren","zh":"集中注意力","ex":"I am trying to focus."},
-    {"id":"trained","en":"trained","de":"trainiert, erzogen","zh":"训练，塑造","ex":"German trained your brain that way."},
-    {"id":"slot","en":"slot","de":"das Fach, der Platz","zh":"槽位，空位","ex":"one slot for present tense"},
-    {"id":"general-truths","en":"general truths","de":"allgemeine Wahrheiten","zh":"普遍真理","ex":"Water boils at 100°C — a general truth."},
-    {"id":"cheat-sheet","en":"cheat sheet","de":"der Spickzettel","zh":"速查表","ex":"a signal-words cheat sheet"},
-    {"id":"drives","en":"it drives me crazy","de":"es macht mich wahnsinnig","zh":"让我抓狂","ex":"My roommate's noise drives me crazy."},
-    {"id":"interchangeable","en":"interchangeable","de":"austauschbar","zh":"可互换的","ex":"They are not interchangeable."},
-    {"id":"simple","en":"simple","de":"einfach","zh":"简单的","ex":"the present simple tense"},
-    {"id":"facts","en":"facts","de":"die Fakten, Tatsachen","zh":"事实","ex":"Present simple states facts."},
-    {"id":"the","en":"the","de":"der/die/das (alle Fälle!)","zh":"（定冠词）","ex":"the man, with the man, I see the man"},
-    {"id":"a-an","en":"a / an","de":"ein/eine (a→an vor Vokal)","zh":"一个（不定冠词）","ex":"a book, an apple, an hour"},
-    {"id":"give-up","en":"give up","de":"aufgeben","zh":"放弃","ex":"Don't give up!"},
-    {"id":"break-down","en":"break down","de":"zusammenbrechen","zh":"崩溃，故障","ex":"She broke down in tears."},
-    {"id":"show-up","en":"show up","de":"auftauchen, erscheinen","zh":"出现，露面","ex":"He didn't show up."},
-    {"id":"look-up","en":"look up","de":"nachschlagen","zh":"查找","ex":"Look up the word in a dictionary."},
-    {"id":"depends-on","en":"depend on","de":"abhängen von","zh":"取决于","ex":"It depends on you."},
-    {"id":"interested-in","en":"interested in","de":"interessiert an","zh":"对……感兴趣","ex":"I'm interested in physics."},
-    {"id":"lifesaver","en":"a lifesaver","de":"ein Lebensretter","zh":"救命恩人","ex":"Thanks! You're a lifesaver."},
-    {"id":"say-again","en":"Could you say that again?","de":"Könntest du das nochmal sagen?","zh":"你能再说一遍吗？","ex":"Sorry, could you say that again?"},
-    {"id":"conversation","en":"conversation","de":"das Gespräch, die Unterhaltung","zh":"对话，交谈","ex":"your first conversation in Canada"},
-    {"id":"improve","en":"improve","de":"verbessern","zh":"提高，改善","ex":"I'm here to improve my English."},
-    {"id":"their","en":"their (possessive)","de":"ihr/Ihr (Possessiv Plural)","zh":"他们的/她们的","ex":"to improve their English"},
-    {"id":"warmth","en":"warmth","de":"die Wärme (auch: Herzlichkeit)","zh":"温暖，热情","ex":"Canadians care about warmth."},
-    {"id":"clarity","en":"clarity","de":"die Klarheit, Deutlichkeit","zh":"清晰，明确","ex":"warmth and clarity, not accuracy"},
-    {"id":"accuracy","en":"accuracy","de":"die Genauigkeit, Korrektheit","zh":"准确性","ex":"not accuracy — warmth first"},
-    {"id":"beat","en":"beat (verb: übertreffen)","de":"schlagen, übertreffen","zh":"胜过，打败","ex":"A wrong sentence beats a silent one."},
-    {"id":"matters","en":"matters (verb)","de":"zählt, ist von Bedeutung","zh":"重要，要紧","ex":"It matters more than any quiz."},
-    {"id":"until","en":"until","de":"bis (zeitlich)","zh":"直到","ex":"Learn them until they come out without thinking."},
-    {"id":"universal","en":"universal","de":"universell, allgemeingültig","zh":"通用的，普遍的","ex":"The universal opener."},
-    {"id":"memorable","en":"memorable","de":"einprägsam, unvergesslich","zh":"难忘的，好记的","ex":"A hint makes you memorable."},
-    {"id":"shadow","en":"shadow (verb)","de":"einen Schatten sein → mitgehen, nachahmen","zh":"影子，跟读","ex":"Shadow the slow dialogue."},
-    {"id":"shake-hands","en":"shake hands","de":"Hände schütteln","zh":"握手","ex":"when you shake hands"},
-    {"id":"appeared","en":"appeared","de":"erschienen, tauchten auf","zh":"出现","ex":"These words appeared in the lesson."},
-    {"id":"experience","en":"experience (verb)","de":"erleben, erfahren","zh":"体验，经历","ex":"experience life in Canada"},
-    {"id":"impressive","en":"impressive","de":"beeindruckend","zh":"令人印象深刻的","ex":"Math and German? That's impressive."},
-    {"id":"a-long-story","en":"it's a long story","de":"das ist eine lange Geschichte","zh":"说来话长","ex":"I speak German too — it's a long story!"},
-    {"id":"nice-to-meet","en":"Nice to meet you","de":"Schön, dich kennenzulernen","zh":"很高兴认识你","ex":"Hi, I'm Shunyu. Nice to meet you."},
-    {"id":"seat-free","en":"Is this seat free?","de":"Ist der Platz frei?","zh":"这位子空着吗？","ex":"Hi! Is this seat free?"},
-    {"id":"what-about-you","en":"What about you?","de":"Und du? / Was ist mit dir?","zh":"你呢？","ex":"I'm from China. What about you?"},
-    {"id":"pine","en":"pine","de":"die Kiefer","zh":"松树","ex":"The air smelled of pine."},
-    {"id":"purpose","en":"purpose","de":"der Zweck","zh":"目的","ex":"What is the purpose of your visit?"},
-    {"id":"visit","en":"visit","de":"der Besuch, besuchen","zh":"访问","ex":"the purpose of your visit"},
-    {"id":"staying","en":"staying","de":"wohnen, bleiben","zh":"住，停留","ex":"Where are you staying?"},
-    {"id":"provide","en":"provide","de":"bereitstellen, anbieten","zh":"提供","ex":"The camp provides accommodation."},
-    {"id":"customs","en":"customs","de":"der Zoll","zh":"海关","ex":"at customs"},
-    {"id":"politely","en":"politely","de":"höflich","zh":"礼貌地","ex":"ask for things politely"},
-    {"id":"counsellor","en":"counsellor","de":"der Betreuer/die Betreuerin","zh":"辅导员","ex":"a summer camp counsellor"},
-    {"id":"exhausted","en":"exhausted","de":"erschöpft, total müde","zh":"筋疲力尽","ex":"You must be exhausted."},
-    {"id":"awesome","en":"awesome","de":"super, großartig","zh":"太棒了","ex":"Awesome! Dinner is at six."},
-    {"id":"layover","en":"layover","de":"der Zwischenstopp","zh":"转机停留","ex":"14 hours with a layover"},
-    {"id":"snippet","en":"snippet","de":"der Ausschnitt, das Bruchstück","zh":"片段","ex":"Story Snippet"},
-    {"id":"sharp","en":"sharp","de":"scharf, stechend","zh":"刺骨的","ex":"sharp and clean air"},
-    {"id":"clean","en":"clean","de":"sauber, klar, rein","zh":"清新的","ex":"cold air — sharp and clean"},
-    {"id":"tall","en":"tall","de":"groß, hoch (Gebäude/Bäume)","zh":"高的","ex":"taller than any building"},
-    {"id":"hoodie","en":"hoodie","de":"der Kapuzenpulli","zh":"卫衣","ex":"a green hoodie"},
-    {"id":"messy","en":"messy","de":"unordentlich, zerzaust","zh":"乱糟糟的","ex":"messy hair"},
-    {"id":"nodded","en":"nodded","de":"nickte","zh":"点了点头","ex":"I nodded."},
-    {"id":"figure-out","en":"figure out","de":"herausfinden, rauskriegen","zh":"搞清楚","ex":"Let's figure this place out."},
-    {"id":"secret","en":"secret","de":"geheim, das Geheimnis","zh":"秘密","ex":"your secret weapon"},
-    {"id":"weapon","en":"weapon","de":"die Waffe","zh":"武器","ex":"your secret weapon"},
-    {"id":"lean-in","en":"people lean in","de":"Leute beugen sich vor (interessiert)","zh":"倾身向前，被吸引","ex":"people lean in when you tell a story"},
-    {"id":"connection","en":"connection","de":"die Verbindung","zh":"联系","ex":"real connection"},
-    {"id":"own","en":"your own","de":"dein eigenes","zh":"你自己的","ex":"in your own words"},
-    {"id":"phrase","en":"phrase","de":"der Ausdruck, die Wendung","zh":"短语","ex":"the magic phrase"},
-    {"id":"awkward","en":"awkward","de":"peinlich, unangenehm","zh":"尴尬","ex":"That was awkward."},
-    {"id":"repeat","en":"repeat","de":"wiederholen","zh":"重复","ex":"Could you repeat that?"},
-    {"id":"other","en":"other","de":"andere(r/s)","zh":"其他的","ex":"other campers"},
-    {"id":"donut","en":"donut","de":"der Donut","zh":"甜甜圈","ex":"coffee and donuts"},
-    {"id":"muffin","en":"muffin","de":"der Muffin","zh":"松饼","ex":"Can I have a muffin?"},
-    {"id":"bagel","en":"bagel","de":"der Bagel","zh":"贝果","ex":"a bagel with cream cheese"},
-    {"id":"chocolate","en":"chocolate","de":"die Schokolade","zh":"巧克力","ex":"hot chocolate"},
-    {"id":"cream","en":"cream","de":"die Sahne","zh":"奶油","ex":"cream or sugar?"},
-    {"id":"sugar","en":"sugar","de":"der Zucker","zh":"糖","ex":"cream or sugar?"},
-    {"id":"medium","en":"medium","de":"mittel(groß)","zh":"中杯/中号","ex":"a medium coffee"},
-    {"id":"counter","en":"counter","de":"die Theke, der Schalter","zh":"柜台","ex":"behind the counter"},
-    {"id":"cashier","en":"cashier","de":"der/die Kassierer/in","zh":"收银员","ex":"The cashier laughed."},
-    {"id":"ordering","en":"ordering","de":"bestellen","zh":"点餐","ex":"ordering food"},
-    {"id":"tongue","en":"tongue","de":"die Zunge","zh":"舌头","ex":"I burned my tongue."},
-    {"id":"burned","en":"burned","de":"verbrannt","zh":"烫伤，烧","ex":"I burned my tongue."},
-    {"id":"sip","en":"sip","de":"der Schluck, nippen","zh":"小口喝","ex":"the first sip"},
-    {"id":"cup","en":"cup","de":"die Tasse, der Becher","zh":"杯子","ex":"almost dropped the cup"},
-    {"id":"dropped","en":"dropped","de":"fallen gelassen","zh":"掉落","ex":"almost dropped the cup"},
-    {"id":"hike","en":"hike","de":"die Wanderung","zh":"徒步，远足","ex":"the hike tomorrow"},
-    {"id":"few","en":"a few","de":"ein paar","zh":"几个","ex":"just a few hours"},
-    {"id":"barely","en":"barely","de":"kaum","zh":"几乎不","ex":"I can barely handle two."},
-    {"id":"honestly","en":"honestly","de":"ehrlich gesagt","zh":"老实说","ex":"My English still needs work, honestly."},
-    {"id":"lately","en":"lately","de":"in letzter Zeit","zh":"最近（时间）","ex":"I've been listening to a lot of TS lately."},
-    {"id":"especially","en":"especially","de":"besonders, vor allem","zh":"尤其是","ex":"Folklore, especially."},
-    {"id":"threw","en":"threw (throw)","de":"warf (werfen)","zh":"扔（过去式）","ex":"Someone threw on another log."},
-    {"id":"log","en":"log (wood)","de":"der Holzscheit","zh":"木柴，圆木","ex":"threw on another log"},
-    {"id":"sparks","en":"sparks","de":"die Funken","zh":"火星，火花","ex":"Sparks flew up."},
-    {"id":"marshmallow","en":"marshmallow","de":"das Marshmallow","zh":"棉花糖","ex":"a marshmallow on a stick"},
-    {"id":"stick","en":"stick","de":"der Stock","zh":"棍子","ex":"a marshmallow on a stick"},
-    {"id":"already","en":"already","de":"schon, bereits","zh":"已经","ex":"already burned black"},
-    {"id":"fifth","en":"fifth","de":"fünfte(r/s)","zh":"第五","ex":"the fifth wrong chord"},
-    {"id":"between","en":"between","de":"zwischen","zh":"在……之间","ex":"between the second and the fifth"},
-    {"id":"wrong","en":"wrong","de":"falsch","zh":"错的","ex":"the fifth wrong chord"}
+    {
+      "id": "add",
+      "en": "add",
+      "de": "hinzufügen",
+      "zh": "添加",
+      "ex": "Add it to your portfolio."
+    },
+    {
+      "id": "tracker",
+      "en": "tracker",
+      "de": "der Verfolger / Aufzeichner",
+      "zh": "追踪器",
+      "ex": "the Vocabulary Tracker"
+    },
+    {
+      "id": "weave",
+      "en": "weave",
+      "de": "weben, einflechten",
+      "zh": "编织，融入",
+      "ex": "I weave it into future lessons."
+    },
+    {
+      "id": "spot",
+      "en": "spot (verb)",
+      "de": "erkennen, entdecken",
+      "zh": "发现，认出",
+      "ex": "I can spot patterns."
+    },
+    {
+      "id": "struggling",
+      "en": "struggling",
+      "de": "sich abmühen, kämpfen",
+      "zh": "挣扎，费劲",
+      "ex": "Are you struggling with this?"
+    },
+    {
+      "id": "latinate",
+      "en": "Latinate",
+      "de": "lateinisch-stämmig",
+      "zh": "拉丁语源的",
+      "ex": "Latinate words like information."
+    },
+    {
+      "id": "present-tense",
+      "en": "present tense",
+      "de": "die Gegenwart(sform)",
+      "zh": "现在时",
+      "ex": "English has two present tenses."
+    },
+    {
+      "id": "continuous",
+      "en": "continuous",
+      "de": "die Verlaufsform (-ing)",
+      "zh": "进行时",
+      "ex": "I am working — present continuous."
+    },
+    {
+      "id": "habits",
+      "en": "habits",
+      "de": "die Gewohnheiten",
+      "zh": "习惯",
+      "ex": "I study every day — that's a habit."
+    },
+    {
+      "id": "routines",
+      "en": "routines",
+      "de": "die Routinen, der Alltag",
+      "zh": "日常，惯例",
+      "ex": "my morning routine"
+    },
+    {
+      "id": "exam",
+      "en": "exam",
+      "de": "die Prüfung",
+      "zh": "考试",
+      "ex": "I am studying for the math exam."
+    },
+    {
+      "id": "temporary",
+      "en": "temporary",
+      "de": "vorübergehend, zeitweilig",
+      "zh": "暂时的",
+      "ex": "a temporary situation this year"
+    },
+    {
+      "id": "focus",
+      "en": "focus (verb)",
+      "de": "sich konzentrieren",
+      "zh": "集中注意力",
+      "ex": "I am trying to focus."
+    },
+    {
+      "id": "trained",
+      "en": "trained",
+      "de": "trainiert, erzogen",
+      "zh": "训练，塑造",
+      "ex": "German trained your brain that way."
+    },
+    {
+      "id": "slot",
+      "en": "slot",
+      "de": "das Fach, der Platz",
+      "zh": "槽位，空位",
+      "ex": "one slot for present tense"
+    },
+    {
+      "id": "general-truths",
+      "en": "general truths",
+      "de": "allgemeine Wahrheiten",
+      "zh": "普遍真理",
+      "ex": "Water boils at 100°C — a general truth."
+    },
+    {
+      "id": "cheat-sheet",
+      "en": "cheat sheet",
+      "de": "der Spickzettel",
+      "zh": "速查表",
+      "ex": "a signal-words cheat sheet"
+    },
+    {
+      "id": "drives",
+      "en": "it drives me crazy",
+      "de": "es macht mich wahnsinnig",
+      "zh": "让我抓狂",
+      "ex": "My roommate's noise drives me crazy."
+    },
+    {
+      "id": "interchangeable",
+      "en": "interchangeable",
+      "de": "austauschbar",
+      "zh": "可互换的",
+      "ex": "They are not interchangeable."
+    },
+    {
+      "id": "simple",
+      "en": "simple",
+      "de": "einfach",
+      "zh": "简单的",
+      "ex": "the present simple tense"
+    },
+    {
+      "id": "facts",
+      "en": "facts",
+      "de": "die Fakten, Tatsachen",
+      "zh": "事实",
+      "ex": "Present simple states facts."
+    },
+    {
+      "id": "the",
+      "en": "the",
+      "de": "der/die/das (alle Fälle!)",
+      "zh": "（定冠词）",
+      "ex": "the man, with the man, I see the man"
+    },
+    {
+      "id": "a-an",
+      "en": "a / an",
+      "de": "ein/eine (a→an vor Vokal)",
+      "zh": "一个（不定冠词）",
+      "ex": "a book, an apple, an hour"
+    },
+    {
+      "id": "give-up",
+      "en": "give up",
+      "de": "aufgeben",
+      "zh": "放弃",
+      "ex": "Don't give up!"
+    },
+    {
+      "id": "break-down",
+      "en": "break down",
+      "de": "zusammenbrechen",
+      "zh": "崩溃，故障",
+      "ex": "She broke down in tears."
+    },
+    {
+      "id": "show-up",
+      "en": "show up",
+      "de": "auftauchen, erscheinen",
+      "zh": "出现，露面",
+      "ex": "He didn't show up."
+    },
+    {
+      "id": "look-up",
+      "en": "look up",
+      "de": "nachschlagen",
+      "zh": "查找",
+      "ex": "Look up the word in a dictionary."
+    },
+    {
+      "id": "depends-on",
+      "en": "depend on",
+      "de": "abhängen von",
+      "zh": "取决于",
+      "ex": "It depends on you."
+    },
+    {
+      "id": "interested-in",
+      "en": "interested in",
+      "de": "interessiert an",
+      "zh": "对……感兴趣",
+      "ex": "I'm interested in physics."
+    },
+    {
+      "id": "lifesaver",
+      "en": "a lifesaver",
+      "de": "ein Lebensretter",
+      "zh": "救命恩人",
+      "ex": "Thanks! You're a lifesaver."
+    },
+    {
+      "id": "say-again",
+      "en": "Could you say that again?",
+      "de": "Könntest du das nochmal sagen?",
+      "zh": "你能再说一遍吗？",
+      "ex": "Sorry, could you say that again?"
+    },
+    {
+      "id": "conversation",
+      "en": "conversation",
+      "de": "das Gespräch, die Unterhaltung",
+      "zh": "对话，交谈",
+      "ex": "your first conversation in Canada"
+    },
+    {
+      "id": "improve",
+      "en": "improve",
+      "de": "verbessern",
+      "zh": "提高，改善",
+      "ex": "I'm here to improve my English."
+    },
+    {
+      "id": "their",
+      "en": "their (possessive)",
+      "de": "ihr/Ihr (Possessiv Plural)",
+      "zh": "他们的/她们的",
+      "ex": "to improve their English"
+    },
+    {
+      "id": "warmth",
+      "en": "warmth",
+      "de": "die Wärme (auch: Herzlichkeit)",
+      "zh": "温暖，热情",
+      "ex": "Canadians care about warmth."
+    },
+    {
+      "id": "clarity",
+      "en": "clarity",
+      "de": "die Klarheit, Deutlichkeit",
+      "zh": "清晰，明确",
+      "ex": "warmth and clarity, not accuracy"
+    },
+    {
+      "id": "accuracy",
+      "en": "accuracy",
+      "de": "die Genauigkeit, Korrektheit",
+      "zh": "准确性",
+      "ex": "not accuracy — warmth first"
+    },
+    {
+      "id": "beat",
+      "en": "beat (verb: übertreffen)",
+      "de": "schlagen, übertreffen",
+      "zh": "胜过，打败",
+      "ex": "A wrong sentence beats a silent one."
+    },
+    {
+      "id": "matters",
+      "en": "matters (verb)",
+      "de": "zählt, ist von Bedeutung",
+      "zh": "重要，要紧",
+      "ex": "It matters more than any quiz."
+    },
+    {
+      "id": "until",
+      "en": "until",
+      "de": "bis (zeitlich)",
+      "zh": "直到",
+      "ex": "Learn them until they come out without thinking."
+    },
+    {
+      "id": "universal",
+      "en": "universal",
+      "de": "universell, allgemeingültig",
+      "zh": "通用的，普遍的",
+      "ex": "The universal opener."
+    },
+    {
+      "id": "memorable",
+      "en": "memorable",
+      "de": "einprägsam, unvergesslich",
+      "zh": "难忘的，好记的",
+      "ex": "A hint makes you memorable."
+    },
+    {
+      "id": "shadow",
+      "en": "shadow (verb)",
+      "de": "einen Schatten sein → mitgehen, nachahmen",
+      "zh": "影子，跟读",
+      "ex": "Shadow the slow dialogue."
+    },
+    {
+      "id": "shake-hands",
+      "en": "shake hands",
+      "de": "Hände schütteln",
+      "zh": "握手",
+      "ex": "when you shake hands"
+    },
+    {
+      "id": "appeared",
+      "en": "appeared",
+      "de": "erschienen, tauchten auf",
+      "zh": "出现",
+      "ex": "These words appeared in the lesson."
+    },
+    {
+      "id": "experience",
+      "en": "experience (verb)",
+      "de": "erleben, erfahren",
+      "zh": "体验，经历",
+      "ex": "experience life in Canada"
+    },
+    {
+      "id": "impressive",
+      "en": "impressive",
+      "de": "beeindruckend",
+      "zh": "令人印象深刻的",
+      "ex": "Math and German? That's impressive."
+    },
+    {
+      "id": "a-long-story",
+      "en": "it's a long story",
+      "de": "das ist eine lange Geschichte",
+      "zh": "说来话长",
+      "ex": "I speak German too — it's a long story!"
+    },
+    {
+      "id": "nice-to-meet",
+      "en": "Nice to meet you",
+      "de": "Schön, dich kennenzulernen",
+      "zh": "很高兴认识你",
+      "ex": "Hi, I'm Shunyu. Nice to meet you."
+    },
+    {
+      "id": "seat-free",
+      "en": "Is this seat free?",
+      "de": "Ist der Platz frei?",
+      "zh": "这位子空着吗？",
+      "ex": "Hi! Is this seat free?"
+    },
+    {
+      "id": "what-about-you",
+      "en": "What about you?",
+      "de": "Und du? / Was ist mit dir?",
+      "zh": "你呢？",
+      "ex": "I'm from China. What about you?"
+    },
+    {
+      "id": "pine",
+      "en": "pine",
+      "de": "die Kiefer",
+      "zh": "松树",
+      "ex": "The air smelled of pine."
+    },
+    {
+      "id": "purpose",
+      "en": "purpose",
+      "de": "der Zweck",
+      "zh": "目的",
+      "ex": "What is the purpose of your visit?"
+    },
+    {
+      "id": "visit",
+      "en": "visit",
+      "de": "der Besuch, besuchen",
+      "zh": "访问",
+      "ex": "the purpose of your visit"
+    },
+    {
+      "id": "staying",
+      "en": "staying",
+      "de": "wohnen, bleiben",
+      "zh": "住，停留",
+      "ex": "Where are you staying?"
+    },
+    {
+      "id": "provide",
+      "en": "provide",
+      "de": "bereitstellen, anbieten",
+      "zh": "提供",
+      "ex": "The camp provides accommodation."
+    },
+    {
+      "id": "customs",
+      "en": "customs",
+      "de": "der Zoll",
+      "zh": "海关",
+      "ex": "at customs"
+    },
+    {
+      "id": "politely",
+      "en": "politely",
+      "de": "höflich",
+      "zh": "礼貌地",
+      "ex": "ask for things politely"
+    },
+    {
+      "id": "counsellor",
+      "en": "counsellor",
+      "de": "der Betreuer/die Betreuerin",
+      "zh": "辅导员",
+      "ex": "a summer camp counsellor"
+    },
+    {
+      "id": "exhausted",
+      "en": "exhausted",
+      "de": "erschöpft, total müde",
+      "zh": "筋疲力尽",
+      "ex": "You must be exhausted."
+    },
+    {
+      "id": "awesome",
+      "en": "awesome",
+      "de": "super, großartig",
+      "zh": "太棒了",
+      "ex": "Awesome! Dinner is at six."
+    },
+    {
+      "id": "layover",
+      "en": "layover",
+      "de": "der Zwischenstopp",
+      "zh": "转机停留",
+      "ex": "14 hours with a layover"
+    },
+    {
+      "id": "snippet",
+      "en": "snippet",
+      "de": "der Ausschnitt, das Bruchstück",
+      "zh": "片段",
+      "ex": "Story Snippet"
+    },
+    {
+      "id": "sharp",
+      "en": "sharp",
+      "de": "scharf, stechend",
+      "zh": "刺骨的",
+      "ex": "sharp and clean air"
+    },
+    {
+      "id": "clean",
+      "en": "clean",
+      "de": "sauber, klar, rein",
+      "zh": "清新的",
+      "ex": "cold air — sharp and clean"
+    },
+    {
+      "id": "tall",
+      "en": "tall",
+      "de": "groß, hoch (Gebäude/Bäume)",
+      "zh": "高的",
+      "ex": "taller than any building"
+    },
+    {
+      "id": "hoodie",
+      "en": "hoodie",
+      "de": "der Kapuzenpulli",
+      "zh": "卫衣",
+      "ex": "a green hoodie"
+    },
+    {
+      "id": "messy",
+      "en": "messy",
+      "de": "unordentlich, zerzaust",
+      "zh": "乱糟糟的",
+      "ex": "messy hair"
+    },
+    {
+      "id": "nodded",
+      "en": "nodded",
+      "de": "nickte",
+      "zh": "点了点头",
+      "ex": "I nodded."
+    },
+    {
+      "id": "figure-out",
+      "en": "figure out",
+      "de": "herausfinden, rauskriegen",
+      "zh": "搞清楚",
+      "ex": "Let's figure this place out."
+    },
+    {
+      "id": "secret",
+      "en": "secret",
+      "de": "geheim, das Geheimnis",
+      "zh": "秘密",
+      "ex": "your secret weapon"
+    },
+    {
+      "id": "weapon",
+      "en": "weapon",
+      "de": "die Waffe",
+      "zh": "武器",
+      "ex": "your secret weapon"
+    },
+    {
+      "id": "lean-in",
+      "en": "people lean in",
+      "de": "Leute beugen sich vor (interessiert)",
+      "zh": "倾身向前，被吸引",
+      "ex": "people lean in when you tell a story"
+    },
+    {
+      "id": "connection",
+      "en": "connection",
+      "de": "die Verbindung",
+      "zh": "联系",
+      "ex": "real connection"
+    },
+    {
+      "id": "own",
+      "en": "your own",
+      "de": "dein eigenes",
+      "zh": "你自己的",
+      "ex": "in your own words"
+    },
+    {
+      "id": "phrase",
+      "en": "phrase",
+      "de": "der Ausdruck, die Wendung",
+      "zh": "短语",
+      "ex": "the magic phrase"
+    },
+    {
+      "id": "awkward",
+      "en": "awkward",
+      "de": "peinlich, unangenehm",
+      "zh": "尴尬",
+      "ex": "That was awkward."
+    },
+    {
+      "id": "repeat",
+      "en": "repeat",
+      "de": "wiederholen",
+      "zh": "重复",
+      "ex": "Could you repeat that?"
+    },
+    {
+      "id": "other",
+      "en": "other",
+      "de": "andere(r/s)",
+      "zh": "其他的",
+      "ex": "other campers"
+    },
+    {
+      "id": "donut",
+      "en": "donut",
+      "de": "der Donut",
+      "zh": "甜甜圈",
+      "ex": "coffee and donuts"
+    },
+    {
+      "id": "muffin",
+      "en": "muffin",
+      "de": "der Muffin",
+      "zh": "松饼",
+      "ex": "Can I have a muffin?"
+    },
+    {
+      "id": "bagel",
+      "en": "bagel",
+      "de": "der Bagel",
+      "zh": "贝果",
+      "ex": "a bagel with cream cheese"
+    },
+    {
+      "id": "chocolate",
+      "en": "chocolate",
+      "de": "die Schokolade",
+      "zh": "巧克力",
+      "ex": "hot chocolate"
+    },
+    {
+      "id": "cream",
+      "en": "cream",
+      "de": "die Sahne",
+      "zh": "奶油",
+      "ex": "cream or sugar?"
+    },
+    {
+      "id": "sugar",
+      "en": "sugar",
+      "de": "der Zucker",
+      "zh": "糖",
+      "ex": "cream or sugar?"
+    },
+    {
+      "id": "medium",
+      "en": "medium",
+      "de": "mittel(groß)",
+      "zh": "中杯/中号",
+      "ex": "a medium coffee"
+    },
+    {
+      "id": "counter",
+      "en": "counter",
+      "de": "die Theke, der Schalter",
+      "zh": "柜台",
+      "ex": "behind the counter"
+    },
+    {
+      "id": "cashier",
+      "en": "cashier",
+      "de": "der/die Kassierer/in",
+      "zh": "收银员",
+      "ex": "The cashier laughed."
+    },
+    {
+      "id": "ordering",
+      "en": "ordering",
+      "de": "bestellen",
+      "zh": "点餐",
+      "ex": "ordering food"
+    },
+    {
+      "id": "tongue",
+      "en": "tongue",
+      "de": "die Zunge",
+      "zh": "舌头",
+      "ex": "I burned my tongue."
+    },
+    {
+      "id": "burned",
+      "en": "burned",
+      "de": "verbrannt",
+      "zh": "烫伤，烧",
+      "ex": "I burned my tongue."
+    },
+    {
+      "id": "sip",
+      "en": "sip",
+      "de": "der Schluck, nippen",
+      "zh": "小口喝",
+      "ex": "the first sip"
+    },
+    {
+      "id": "cup",
+      "en": "cup",
+      "de": "die Tasse, der Becher",
+      "zh": "杯子",
+      "ex": "almost dropped the cup"
+    },
+    {
+      "id": "dropped",
+      "en": "dropped",
+      "de": "fallen gelassen",
+      "zh": "掉落",
+      "ex": "almost dropped the cup"
+    },
+    {
+      "id": "hike",
+      "en": "hike",
+      "de": "die Wanderung",
+      "zh": "徒步，远足",
+      "ex": "the hike tomorrow"
+    },
+    {
+      "id": "few",
+      "en": "a few",
+      "de": "ein paar",
+      "zh": "几个",
+      "ex": "just a few hours"
+    },
+    {
+      "id": "barely",
+      "en": "barely",
+      "de": "kaum",
+      "zh": "几乎不",
+      "ex": "I can barely handle two."
+    },
+    {
+      "id": "honestly",
+      "en": "honestly",
+      "de": "ehrlich gesagt",
+      "zh": "老实说",
+      "ex": "My English still needs work, honestly."
+    },
+    {
+      "id": "lately",
+      "en": "lately",
+      "de": "in letzter Zeit",
+      "zh": "最近（时间）",
+      "ex": "I've been listening to a lot of TS lately."
+    },
+    {
+      "id": "especially",
+      "en": "especially",
+      "de": "besonders, vor allem",
+      "zh": "尤其是",
+      "ex": "Folklore, especially."
+    },
+    {
+      "id": "threw",
+      "en": "threw (throw)",
+      "de": "warf (werfen)",
+      "zh": "扔（过去式）",
+      "ex": "Someone threw on another log."
+    },
+    {
+      "id": "log",
+      "en": "log (wood)",
+      "de": "der Holzscheit",
+      "zh": "木柴，圆木",
+      "ex": "threw on another log"
+    },
+    {
+      "id": "sparks",
+      "en": "sparks",
+      "de": "die Funken",
+      "zh": "火星，火花",
+      "ex": "Sparks flew up."
+    },
+    {
+      "id": "marshmallow",
+      "en": "marshmallow",
+      "de": "das Marshmallow",
+      "zh": "棉花糖",
+      "ex": "a marshmallow on a stick"
+    },
+    {
+      "id": "stick",
+      "en": "stick",
+      "de": "der Stock",
+      "zh": "棍子",
+      "ex": "a marshmallow on a stick"
+    },
+    {
+      "id": "already",
+      "en": "already",
+      "de": "schon, bereits",
+      "zh": "已经",
+      "ex": "already burned black"
+    },
+    {
+      "id": "fifth",
+      "en": "fifth",
+      "de": "fünfte(r/s)",
+      "zh": "第五",
+      "ex": "the fifth wrong chord"
+    },
+    {
+      "id": "between",
+      "en": "between",
+      "de": "zwischen",
+      "zh": "在……之间",
+      "ex": "between the second and the fifth"
+    },
+    {
+      "id": "wrong",
+      "en": "wrong",
+      "de": "falsch",
+      "zh": "错的",
+      "ex": "the fifth wrong chord"
+    },
+    {
+      "id": "furniture",
+      "en": "furniture",
+      "de": "die Möbel",
+      "zh": "",
+      "ex": "a furniture market"
+    },
+    {
+      "id": "nearby",
+      "en": "nearby",
+      "de": "in der Nähe",
+      "zh": "",
+      "ex": "a market nearby"
+    },
+    {
+      "id": "cellar",
+      "en": "cellar",
+      "de": "der Keller",
+      "zh": "",
+      "ex": "a cellar at the back"
+    },
+    {
+      "id": "sparkle",
+      "en": "sparkle",
+      "de": "funkeln",
+      "zh": "",
+      "ex": "A yellow light sparkled."
+    },
+    {
+      "id": "uncontrollable",
+      "en": "uncontrollable",
+      "de": "unkontrollierbar",
+      "zh": "",
+      "ex": "not warm, but uncontrollable"
+    },
+    {
+      "id": "decade",
+      "en": "decade",
+      "de": "das Jahrzehnt",
+      "zh": "",
+      "ex": "a decade I never lived in"
+    },
+    {
+      "id": "strange",
+      "en": "strange",
+      "de": "seltsam, fremd",
+      "zh": "",
+      "ex": "Everything felt strange."
+    },
+    {
+      "id": "sunlight",
+      "en": "sunlight",
+      "de": "das Sonnenlicht",
+      "zh": "",
+      "ex": "the sunlight was so cold"
+    },
+    {
+      "id": "mountains",
+      "en": "mountains",
+      "de": "die Berge",
+      "zh": "",
+      "ex": "the sky and mountains"
+    },
+    {
+      "id": "wind-chimes",
+      "en": "wind chimes",
+      "de": "das Windspiel",
+      "zh": "",
+      "ex": "the sound of wind chimes"
+    },
+    {
+      "id": "backrooms",
+      "en": "backrooms",
+      "de": "die Hinterzimmer (Backrooms)",
+      "zh": "",
+      "ex": "inspired by the Backrooms"
+    }
   ]
-}
-</script>
+}</script>
 
 <script>
 // ═══════════ SPACED REPETITION ENGINE (Leitner, compressed for 20-day sprint) ═══════════
@@ -365,7 +1108,63 @@ function buildQueue() {
     queue = [...vocab].filter(c => progress[c.id].wrong > 0)
                       .sort((a,b) => progress[b.id].wrong - progress[a.id].wrong);
     if (queue.length > 20) queue = queue.slice(0, 20);
+  } else if (mode === 'mixed') {
+    // Build flashcard queue, insert spelling challenges every 3rd card
+    let raw = vocab.filter(c => progress[c.id].nextReview <= today());
+    if (raw.length === 0) raw = [...vocab].sort(() => Math.random() - 0.5);
+    raw.sort((a,b) => progress[a.id].box - progress[b.id].box);
+    if (raw.length > 15) raw = raw.slice(0, 15);
+    queue = [];
+    raw.forEach((c, i) => {
+      queue.push({card: c, type: 'flash'});
+      if ((i+1) % 3 === 0) queue.push({card: c, type: 'spell'}); // spelling challenge for same word
+    });
+    if (queue.length > 20) queue = queue.slice(0, 20);
   }
+}
+
+// ═══ MINI-SPELL (for mixed mode) ═══
+function showMiniSpell() {
+  document.getElementById('study-area').style.display = 'none';
+  document.getElementById('spell-area').style.display = 'none';
+  const ms = document.getElementById('mini-spell');
+  ms.style.display = '';
+  document.getElementById('mini-spell-de').textContent = currentCard.de.replace(/\s*\(.*?\)\s*/g, ' ').trim();
+  document.getElementById('mini-spell-input').value = '';
+  document.getElementById('mini-spell-fb').textContent = '';
+  document.getElementById('mini-spell-fb').style.color = '';
+  setTimeout(() => document.getElementById('mini-spell-input').focus(), 200);
+}
+
+function checkMiniSpell() {
+  const input = document.getElementById('mini-spell-input');
+  const given = input.value.trim();
+  if (!given || !currentCard) return;
+  const normalize = s => s.toLowerCase().replace(/[.,!?;:'"()]/g,'').replace(/\s*\(.*?\)\s*/g,' ').replace(/\s+/g,' ').trim();
+  const target = normalize(currentCard.en);
+  const user = normalize(given);
+  const fb = document.getElementById('mini-spell-fb');
+  if (user === target) {
+    fb.innerHTML = '✅ <strong>'+currentCard.en+'</strong>';
+    fb.style.color = 'var(--green)';
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(currentCard.en); u.lang = 'en-US'; u.rate = 0.85;
+      if (enVoice) u.voice = enVoice; speechSynthesis.speak(u);
+    }
+    document.getElementById('mini-spell').style.display = 'none';
+    setTimeout(nextCard, 1000);
+  } else {
+    fb.innerHTML = '❌ <strong>'+currentCard.en+'</strong> ← "'+given+'"';
+    fb.style.color = '#c1121f';
+  }
+}
+
+function speakMiniSpell() {
+  if (!currentCard || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(currentCard.en); u.lang = 'en-US'; u.rate = 0.8;
+  if (enVoice) u.voice = enVoice; speechSynthesis.speak(u);
 }
 
 // Start — resume saved session or start fresh
@@ -403,12 +1202,27 @@ function nextCard() {
   document.getElementById('flashcard').classList.remove('flipped');
   document.getElementById('rating-row').classList.add('hidden');
   document.getElementById('flip-prompt').classList.remove('hidden');
+  document.getElementById('spell-area').style.display = 'none';
+  document.getElementById('study-area').style.display = '';
 
   const total = queue.length + sessionDone;
   document.getElementById('progress-fill').style.width = total ? (sessionDone/total*100)+'%' : '0%';
 
   if (queue.length === 0) { showEnd(); return; }
-  currentCard = queue.shift();
+  
+  // Handle mixed mode: items are {card, type}
+  let item = queue.shift();
+  if (item && item.card !== undefined) {
+    currentCard = item.card;
+    if (item.type === 'spell') {
+      // Show mini spelling challenge
+      showMiniSpell();
+      return;
+    }
+  } else {
+    currentCard = item; // legacy plain card
+  }
+  
   document.getElementById('front-word').textContent = currentCard.en;
   document.getElementById('front-example').textContent = currentCard.ex || '';
   document.getElementById('back-de').textContent = currentCard.de;
@@ -536,6 +1350,7 @@ function setMode(m) {
   sessionDone = 0;
   document.getElementById('study-area').style.display = (m === 'spell') ? 'none' : '';
   document.getElementById('spell-area').style.display = (m === 'spell') ? '' : 'none';
+  document.getElementById('mini-spell').style.display = 'none';
   document.getElementById('end-screen').style.display = 'none';
   if (m === 'spell') {
     startSpelling();
